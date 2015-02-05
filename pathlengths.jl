@@ -1,6 +1,4 @@
 
-
-
 ## Distancia entre nodos -------------------------- ##
 
 function PathLengthsFromNode(w::SmallWorldNet, n::Int64)
