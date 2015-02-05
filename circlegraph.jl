@@ -1,7 +1,4 @@
 
-
-
-
 ## Para graficar la red ------------------------------- ##
 function NodeLocations!(w::SmallWorldNet, xs::Vector{Float64}, ys::Vector{Float64})
     divi = 2pi / w.L
