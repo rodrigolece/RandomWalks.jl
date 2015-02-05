@@ -1,6 +1,4 @@
 
-
-
 ## El tipo SmallWorldNet con el constructor básico ----- ##
 type SmallWorldNet
     L::Int64
