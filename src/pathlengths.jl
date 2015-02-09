@@ -1,13 +1,13 @@
 
 ## Distancia entre nodos -------------------------- ##
 
-function PathLengthsFromNode(w::SmallWorldNet, n::Int64)
+function PathLengthsFromNode(w::SmallWorldNet, n::Int)
     d = 0 
     distances = [n => d]
     currentShell = [n]
-    
+
     while length(currentShell) > 0
-        nextShell = Int64[]
+        nextShell = Int[]
         for m in currentShell
             for p in GetNeighbours(w, m)
                 if !(p in keys(distances))  #si p no está en el diccionario:
@@ -25,7 +25,7 @@ end
 
 function AllPathLengths(w::SmallWorldNet)
     out = zeros(fld(w.L,w.Z)+1) #La longitud maxima 
-    
+
     for n in GetNodes(w)
         for n2 in values(PathLengthsFromNode(w, n))
             out[n2+1] += 1
@@ -59,4 +59,3 @@ function MaxPathLength(w::SmallWorldNet)
         end
     end
 end
-        
