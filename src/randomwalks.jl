@@ -5,20 +5,20 @@
 ## ------------------------------------------------------- ##
 ## ------------------------------------------------------- ##
 
-function RandomStep(w::SmallWorldNet, n::Int64)
+function RandomStep(w::SmallWorldNet, n::Int)
     t = GetNeighbours(w,n)
     return t[rand(1:length(t))]
 end
 
-function RandomWalk(w::SmallWorldNet, n0::Int64, N::Int64)
+function RandomWalk(w::SmallWorldNet, n0::Int, N::Int)
     if !HasNode(w,n0)
         print("n0 = $n0 not in network")
         return
     end
-    
-    trayec = Array(Int64,N+1)
+
+    trayec = Array(Int,N+1)
     trayec[1] = n0
-    
+
     for i in 1:N
         trayec[i+1] = RandomStep(w,trayec[i])
     end
@@ -28,9 +28,9 @@ end
 
 ## La distribución de la caminata aleatoria -------------- ##
 
-function HistRandomWalk(w::SmallWorldNet, n0::Int64, N::Int64)
+function HistRandomWalk(w::SmallWorldNet, n0::Int, N::Int)
     a, b = minimum(GetNodes(w)), maximum(GetNodes(w))
-    
+
     plt.figure(figsize=(5,3))
     plt.grid()
     plt.xlim(a,b+1)
@@ -42,7 +42,7 @@ end
 ## ------------------- 2 Caminantes -------------------- ##
 ## ----------------------------------------------------- ##
 
-function RandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64)
+function RandomWalk2(w::SmallWorldNet, n1::Int, n2::Int)
     if HasNode(w,n1) == false
         print("n1 = $n1 not in network")
         return
@@ -53,9 +53,9 @@ function RandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64)
         print("Only one node given")
         return
     end
-    
+
     t = 0
-    
+
     while n1 != n2
         n1 = RandomStep(w, n1)
         if n1 == n2
@@ -65,12 +65,12 @@ function RandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64)
             t += 1
         end
     end
-    
+
     return t
 end
 
-function RunsRandom2(w::SmallWorldNet, n1::Int64, n2::Int64, N::Int64)
-    corridas = Int64[]
+function RunsRandom2(w::SmallWorldNet, n1::Int, n2::Int, N::Int)
+    corridas = Int[]
     sizehint(corridas, N)
     for i in 1:N
         push!(corridas, RandomWalk2(w,n1,n2))
@@ -78,22 +78,22 @@ function RunsRandom2(w::SmallWorldNet, n1::Int64, n2::Int64, N::Int64)
     return corridas
 end
 
-function AvgRandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64, N::Int64)
+function AvgRandomWalk2(w::SmallWorldNet, n1::Int, n2::Int, N::Int)
     d = PathLengthsFromNode(w,n1)[n2]
     corridas = RunsRandom2(w,n1,n2,N)
     μ = mean(corridas)
     σ = std(corridas)
-    
+
     return d, μ, σ/sqrt(N)
 end
 
-## Para graficar la convergencia del promedio -------- ## 
+## Para graficar la convergencia del promedio -------- ##
 
-function ConvergenceAvgRandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64, Ns::Vector{Int64})
+function ConvergenceAvgRandomWalk2(w::SmallWorldNet, n1::Int, n2::Int, Ns::Vector{Int})
     plt.figure(figsize=(5,3))
     plt.xlim(10^(Ns[1]-0.1), 10^(Ns[end]+0.1))
     plt.grid()
-    
+
     Ns = [10^i for i in Ns]
     tiempos = Float64[]
     errores = Float64[]
@@ -103,7 +103,7 @@ function ConvergenceAvgRandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64, Ns::V
         push!(tiempos, a[2])
         push!(errores, a[3])
     end
-    
+
     plt.title("($n1, $n2) d=$d")
     plt.semilogx(Ns, tiempos, "bo-")
     plt.errorbar(Ns, tiempos, yerr = errores)
@@ -111,11 +111,11 @@ end
 
 # La distribución de tiempos de 2 caminantes ------------ ##
 
-function HistRandomWalk2(w::SmallWorldNet, n1::Int64, n2::Int64, N::Int64, bins::Int64)
+function HistRandomWalk2(w::SmallWorldNet, n1::Int, n2::Int, N::Int, bins::Int)
     d = PathLengthsFromNode(w,n1)[n2]
     corridas = RunsRandom2(w,n1,n2,N)
     μ = mean(corridas)
-    
+
     plt.figure(figsize=(5,3))
     plt.title("($n1, $n2) d=$d")
     a = plt.hist(corridas, bins, (1,bins+1))
@@ -129,7 +129,7 @@ end
 ## ------------------ Primera llegada ------------------ ##
 ## ----------------------------------------------------- ##
 
-function RandomWalkUntil(w::SmallWorldNet, n0::Int64, nf::Int64)
+function RandomWalkUntil(w::SmallWorldNet, n0::Int, nf::Int)
     if HasNode(w,n0) == false
         print("n0 = $n0 not in network")
         return
@@ -137,10 +137,10 @@ function RandomWalkUntil(w::SmallWorldNet, n0::Int64, nf::Int64)
         print("Infinite cycle, nf = $nf not in network")
         return
     end
-    
+
     t = 0
     n = n0
-    
+
     while n != nf
         n = RandomStep(w,n)
         t += 1
@@ -149,8 +149,8 @@ function RandomWalkUntil(w::SmallWorldNet, n0::Int64, nf::Int64)
     return t
 end
 
-function RunsUntil(w::SmallWorldNet, n0::Int64, nf::Int64, N::Int64)
-    corridas = Int64[]
+function RunsUntil(w::SmallWorldNet, n0::Int, nf::Int, N::Int)
+    corridas = Int[]
     sizehint(corridas, N)
     for i in 1:N
         push!(corridas, RandomWalkUntil(w,n0,nf))
@@ -158,25 +158,25 @@ function RunsUntil(w::SmallWorldNet, n0::Int64, nf::Int64, N::Int64)
     return corridas
 end
 
-function AvgRandomWalkUntil(w::SmallWorldNet, n0::Int64, nf::Int64, N::Int64)
+function AvgRandomWalkUntil(w::SmallWorldNet, n0::Int, nf::Int, N::Int)
     d = PathLengthsFromNode(w,n0)[nf]
     corridas = RunsUntil(w,n0,nf,N)
     μ = mean(corridas)
     σ = std(corridas)
-    
+
     return d, μ, σ/sqrt(N)
 end
 
 ## La distibución de tiempos de primera llegada -------------- ##
 
-function HistRandomWalkUntil(w::SmallWorldNet, n0::Int64, nf::Int64, N::Int64, bins::Int64)
+function HistRandomWalkUntil(w::SmallWorldNet, n0::Int, nf::Int, N::Int, bins::Int)
     d = PathLengthsFromNode(w,n0)[nf]
     corridas = RunsUntil(w,n0,nf,N)
     μ = mean(corridas)
-    
+
     plt.figure(figsize=(5,3))
     plt.title("($n0, $nf) d=$d")
-    a = plt.hist(corridas, bins, (1,bins+1)) 
+    a = plt.hist(corridas, bins, (1,bins+1))
     top = maximum( a[1] )
     plt.plot([μ,μ], [0,top], "r--")
     return a
