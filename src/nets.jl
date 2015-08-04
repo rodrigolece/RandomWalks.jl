@@ -5,14 +5,14 @@ export hasNode, addNode!, addEdge!, getNeighbours
 
 ## El tipo SmallWorldNet con el constructor básico ----- ##
 type SmallWorldNet
-    num_nodes::Int64
-    num_neighs::Int64
+    num_nodes::Int
+    num_neighs::Int
 	# La probabilidad con la que se hacen uniones de largo alcance
     p::Float64
-    neighbours::Vector{Vector{Int64}}
+    neighbours::Vector{Vector{Int}}
 
-    function SmallWorldNet(num_nodes::Int64)
-        neighbours = Array(Vector{Int64},num_nodes)
+    function SmallWorldNet(num_nodes::Int)
+        neighbours = Array(Vector{Int},num_nodes)
         fill!(neighbours, [])
         new(num_nodes, 0, 0., neighbours)
     end
@@ -25,7 +25,7 @@ show(io::IO, w::SmallWorldNet) = println(io, "Nodes:$(w.num_nodes) Neighs:$(w.nu
 
 # Las funciones de la red --------------------------- ##
 
-function hasNode(w::SmallWorldNet, n::Int64)
+function hasNode(w::SmallWorldNet, n::Int)
     n <= length(w.neighbours) ? true : false
 end
 
@@ -37,11 +37,11 @@ end
 #     [1:length(w.neighbours)]
 # end
 
-function getNeighbours(w::SmallWorldNet, n::Int64)
+function getNeighbours(w::SmallWorldNet, n::Int)
     w.neighbours[n]
 end
 
-function addEdge!(w::SmallWorldNet, n1::Int64, n2::Int64)
+function addEdge!(w::SmallWorldNet, n1::Int, n2::Int)
     if n1 == n2
         #print("Only one node given: ",n1)
         return
@@ -59,7 +59,7 @@ end
 
 function addNeighbourEdges!(w::SmallWorldNet)
 	# Esto se cambia con mod1
-    modulo = Dict{Int64,Int64}()
+    modulo = Dict{Int,Int}()
     for i in 0:w.num_nodes-1
         modulo[-i] = w.num_nodes - i
         modulo[i+1] = i+1
@@ -87,7 +87,7 @@ function addRandomEdges!(w::SmallWorldNet)
     end
 end
 
-function SmallWorldNet(num_nodes::Int64, num_neighs::Int64, p::Float64)
+function SmallWorldNet(num_nodes::Int, num_neighs::Int, p::Float64)
     w = SmallWorldNet(num_nodes)
     w.num_neighs = num_neighs
     w.p = p
