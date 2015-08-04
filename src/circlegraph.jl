@@ -1,6 +1,7 @@
 module CircleGraph
 
 using Nets
+using PyPlot
 
 export circleGraph
 
