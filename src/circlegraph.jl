@@ -1,6 +1,7 @@
 module CircleGraph
 
 using Nets
+using PyPlot
 
 # Eso es necesario?
 using PyPlot
