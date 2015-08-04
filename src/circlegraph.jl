@@ -2,6 +2,9 @@ module CircleGraph
 
 using Nets
 
+# Eso es necesario?
+using PyPlot
+
 export circleGraph
 
 ## Para graficar la red ------------------------------- ##
