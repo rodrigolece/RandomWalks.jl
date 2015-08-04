@@ -1,6 +1,6 @@
 module CircleGraph
 
-using SmallWorldNet
+using Nets
 
 export circleGraph
 
