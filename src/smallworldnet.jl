@@ -1,6 +1,7 @@
 module SmallWorldNet
 
-export SmallWorldNet, SmallWorldNetWithNoStep, addEdge!
+export SmallWorldNet, SmallWorldNetWithNoStep
+export hasNode, addNode!, addEdge!, getNeighbours
 
 ## El tipo SmallWorldNet con el constructor básico ----- ##
 type SmallWorldNet
@@ -32,9 +33,9 @@ function addNode!(w::SmallWorldNet)
     push!(w.neighbours, [])
 end
 
-function getNodes(w::SmallWorldNet)
-    [1:length(w.neighbours)]
-end
+# function getNodes(w::SmallWorldNet)
+#     [1:length(w.neighbours)]
+# end
 
 function getNeighbours(w::SmallWorldNet, n::Int64)
     w.neighbours[n]
@@ -44,7 +45,7 @@ function addEdge!(w::SmallWorldNet, n1::Int64, n2::Int64)
     if n1 == n2
         #print("Only one node given: ",n1)
         return
-    elseif n2 in GetNeighbours(w, n1)
+    elseif n2 in getNeighbours(w, n1)
         #print("Edge already defined")
         return
     else
