@@ -3,7 +3,7 @@ module CircleGraph
 export circleGraph
 
 ## Para graficar la red ------------------------------- ##
-function nodeLocations!(w::SmallWorldNet)
+function nodeLocations(w::SmallWorldNet)
     divi = 2pi / w.num_nodes
     angs = [0:divi:2pi-divi]
 
@@ -22,7 +22,7 @@ function circleGraph(w::SmallWorldNet)
     plt.xlim(-1.05, 1.05)
     plt.ylim(-1.05, 1.05)
 
-    xs, ys = nodeLocations!(w)
+    xs, ys = nodeLocations(w)
 
     plt.plot(xs, ys, "ro")
 
