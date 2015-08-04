@@ -18,4 +18,10 @@ facts("Pruebas del módulo Nets") do
 	addEdge!(w,n1,n2)
 	@fact n1 in getNeighbours(w,n2) --> true
 	@fact n2 in getNeighbours(w,n1) --> true
+
+	# Prueba del constructor con uniones aleatorias
+	p = 0.1
+	srand(1)
+	w = SmallWorldNet(num_nodes, num_neighs, p)
+	@fact 9 in getNeighbours(w,7) --> true
 end
