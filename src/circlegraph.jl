@@ -1,9 +1,8 @@
 module CircleGraph
 
 using Nets
-using PyPlot
 
-# Eso es necesario?
+# Esto es necesario?
 using PyPlot
 
 export circleGraph
