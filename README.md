@@ -1,9 +1,7 @@
-# Tipo red de mundo pequeño, y funciones básicas
+# RandomWalks.jl
 
-* `src`:
-  - `smallworldnet.jl`: contiene el tipo y el constructor de una red de mundo
-pequeño.
-  - `circlegraph.jl`: tiene a las funciones para graficar a este tipo de red.
-  - `pathlengths.jl`: define a las funciones que calculan distancias entre
-nodos.
-  - `randomwalks.jl` contiene las funciones de caminantes aleatorios.
+La red de mundo pequeño está implementada en el tipo `SmallWorldNet`. El resto de las funciones trabajan con este tipo y sirven para:
+
+- Graficarla (`src/circlegraph.jl`)
+- Calcular distancias entre nodos (`src/pathlengths.jl`)
+- Hacer simulaciones de caminatas aleatorias (`src/functions_rw.jl`)
