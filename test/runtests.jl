@@ -1,5 +1,6 @@
 using FactCheck
 
+# using RandomWalks
 
 # Pruebas de las redes:
 
