@@ -13,7 +13,7 @@ include("tests_paths.jl")
 
 # Pruebas de las funciones de RW:
 
-include("tests_rw.jl")
+include("tests_functionsrw.jl")
 
 
 FactCheck.exitstatus()
