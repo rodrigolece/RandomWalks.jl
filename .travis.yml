@@ -1,4 +1,10 @@
 language: julia
+
 julia:
-  - "0.3.11"
+  - release
+  - nightly
+
 script: julia ./test/tests_paths.jl
+
+notifications:
+  email: false
