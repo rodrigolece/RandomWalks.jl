@@ -1,7 +1,3 @@
-module Nets
-
-export SmallWorldNet, SmallWorldNetWithNoStep
-export hasNode, addNode!, addEdge!, getNeighbours
 
 ## El tipo SmallWorldNet con el constructor básico ----- ##
 type SmallWorldNet
@@ -17,8 +13,6 @@ type SmallWorldNet
         new(num_nodes, 0, 0., neighbours)
     end
 end
-
-import Base.show
 
 show(io::IO, w::SmallWorldNet) = println(io, "Nodes:$(w.num_nodes) Neighs:$(w.num_neighs) p:$(w.p)")
 
@@ -107,6 +101,4 @@ function SmallWorldNetWithNoStep(w::SmallWorldNet)
         wc.neighbours[i] = push!([copy(w.neighbours[i])...],i)
     end
     return wc
-end
-
 end
