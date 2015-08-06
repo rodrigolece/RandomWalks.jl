@@ -1,6 +1,5 @@
 using FactCheck
 
-using Nets
 using RandomWalks
 
 facts("Pruebas de las funciones de caminatas aleatorias") do

@@ -1,11 +1,3 @@
-module CircleGraph
-
-using Nets
-
-# Esto es necesario?
-using PyPlot
-
-export circleGraph
 
 ## Para graficar la red ------------------------------- ##
 function nodeLocations(w::SmallWorldNet)
@@ -39,6 +31,4 @@ function circleGraph(w::SmallWorldNet)
             end
         end
     end
-end
-
 end

@@ -1,8 +1,3 @@
-module PathLengths
-
-using Nets
-
-export pathLengthsFromNode, allPathLengths, avgPathLength, maxPathLength
 
 ## Distancia entre nodos -------------------------- ##
 
@@ -64,6 +59,4 @@ function maxPathLength(w::SmallWorldNet)
             return N-i-1 #el -1 se debe a que distrib[1] es la distancia 0
         end
     end
-end
-
 end

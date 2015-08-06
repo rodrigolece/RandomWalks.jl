@@ -1,6 +1,6 @@
 using FactCheck
 
-using Nets
+using RandomWalks
 
 facts("Pruebas del módulo Nets") do
 	# Deberíamos de cambiar el tipo para que funcione con p = 0

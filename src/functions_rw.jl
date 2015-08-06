@@ -1,13 +1,3 @@
-module RandomWalks
-
-using Nets
-using PathLengths
-# No deberíamos de cargar PyPlot aquí, es muy lento
-# using PyPlot
-
-export randomStep, randomWalk, histRandomWalk
-export randomWalk2, runsRandom2, avgRandomWalk2, convergenceAvgRandomWalk2, histRandomWalk2
-export randomWalkUntil, runsUntil, avgRandomWalkUntil, histRandomWalkUntil
 
 function randomStep(w::SmallWorldNet, node::Int)
     t = getNeighbours(w,node)
@@ -188,6 +178,4 @@ function histRandomWalkUntil(w::SmallWorldNet, n0::Int, nf::Int, N::Int, bins::I
     top = maximum( a[1] )
     plt.plot([μ,μ], [0,top], "r--")
     return a
-end
-
 end
