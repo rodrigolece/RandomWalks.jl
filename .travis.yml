@@ -2,9 +2,8 @@ language: julia
 
 julia:
   - release
-  - nightly
 
-script: julia ./test/tests_paths.jl
+# script: julia ./test/tests_paths.jl
 
 notifications:
   email: false
