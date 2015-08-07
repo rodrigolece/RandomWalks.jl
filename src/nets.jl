@@ -96,9 +96,9 @@ end
 # Se usa tramposamente como constructor, la mayúscula es un abuso de notación
 
 function SmallWorldNetWithNoStep(w::SmallWorldNet)
-    wc = SmallWorldNet(w.num_nodes)
-    for i in 1:w.num_nodes
-        wc.neighbours[i] = push!([copy(w.neighbours[i])...],i)
-    end
-    return wc
+    w_lazy = SmallWorldNet(w.num_nodes)
+#     for i in 1:w_lazy.num_nodes
+#         w_lazy.neighbours[i] = [w.neighbours[i]..., i]
+#     end
+    return w_lazy
 end
