@@ -97,8 +97,8 @@ end
 
 function SmallWorldNetWithNoStep(w::SmallWorldNet)
     w_lazy = SmallWorldNet(w.num_nodes)
-#     for i in 1:w_lazy.num_nodes
-#         w_lazy.neighbours[i] = [w.neighbours[i]..., i]
-#     end
+    for i in 1:w_lazy.num_nodes
+        w_lazy.neighbours[i] = [w.neighbours[i]..., i]
+    end
     return w_lazy
 end

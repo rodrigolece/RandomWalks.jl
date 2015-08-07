@@ -3,8 +3,17 @@ using FactCheck
 using RandomWalks
 
 facts("Pruebas del módulo Nets") do
+	num_nodes = 10 ; node = 1
+	w = SmallWorldNet(num_nodes)
+	@fact length(w.neighbours) --> num_nodes
+	@fact getNeighbours(w,node) --> Vector{Int}[]
+
+	w_lazy = SmallWorldNetWithNoStep(w)
+	@fact length(w_lazy.neighbours) --> num_nodes
+	@fact getNeighbours(w_lazy,node) --> [node]
+
 	# Deberíamos de cambiar el tipo para que funcione con p = 0
-	num_nodes = 10 ; num_neighs = 2 ; p = 0.
+	num_neighs = 2 ; p = 0.
 	w = SmallWorldNet(num_nodes, num_neighs, p)
 
 	@fact length(w.neighbours) --> num_nodes
