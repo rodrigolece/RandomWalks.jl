@@ -13,6 +13,12 @@ facts("Pruebas de las funciones para calcular distancias") do
 	@fact distances[10] --> 1
 	@fact distances[6] --> 4
 
+	all_paths = allPathLengths(w)
+	@fact length(all_paths) --> 55
+	@fact all_paths[(4,4)] --> 0
+	@fact all_paths[(8,10)] --> 2
+	@fact all_paths[(4,9)] --> 4
+
 	hist_distances = pathLengthsHist(w)
 	@fact length(hist_distances) --> 6
 	@fact hist_distances[1] --> num_nodes
