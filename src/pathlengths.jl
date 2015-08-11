@@ -30,7 +30,9 @@ function allPathLengths(w::SmallWorldNet)
         distances = pathLengthsFromNode(w, first_node)
 
         for second_node in keys(distances)
-            full_dict[(min(n, n2), max(n, n2))] = distances[n2] #tomar min/max evita duplicar
+			# Tomar min/max evita duplicar
+			ordered = min(first_node, second_node), max(first_node, second_node)
+            full_dict[ordered] = distances[second_node]
         end
     end
 
