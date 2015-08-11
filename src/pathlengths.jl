@@ -24,6 +24,20 @@ function pathLengthsFromNode(w::SmallWorldNet, n::Int)
 end
 
 function allPathLengths(w::SmallWorldNet)
+    full_dict = Dict{(Int,Int),Int}()
+
+    for first_node in 1:w.num_nodes
+        distances = pathLengthsFromNode(w, first_node)
+
+        for second_node in keys(distances)
+            full_dict[(min(n, n2), max(n, n2))] = distances[n2] #tomar min/max evita duplicar
+        end
+    end
+
+    return full_dict
+end
+
+function pathLengthsHist(w::SmallWorldNet)
     out = zeros(Int, fld(w.num_nodes, w.num_neighs) + 1) #La longitud maxima
 
     for n in 1:w.num_nodes
@@ -37,7 +51,7 @@ function allPathLengths(w::SmallWorldNet)
 end
 
 function avgPathLength(w::SmallWorldNet)
-    distrib = allPathLengths(w)
+    distrib = pathLengthsHist(w)
     p = 0.
     total = 0
 
@@ -50,7 +64,7 @@ function avgPathLength(w::SmallWorldNet)
 end
 
 function maxPathLength(w::SmallWorldNet)
-    distrib = allPathLengths(w)
+    distrib = pathLengthsHist(w)
     N = length(distrib)
 
 	# La distancia máxima es la mayor entrada distinta de cero
