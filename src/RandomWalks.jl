@@ -14,7 +14,7 @@ export
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
 	randomStep, randomWalk,# histRandomWalk,
 	randomWalk2, runsRandom2, avgRandomWalk2,# convergenceAvgRandomWalk2, histRandomWalk2,
-	allRWfromOrigin,
+	allRWfromOrigin, avgRWfromOrigin,
 	randomWalkUntil, runsUntil, avgRandomWalkUntil#, histRandomWalkUntil
 
 

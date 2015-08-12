@@ -88,7 +88,27 @@ function allRWfromOrigin(w::SmallWorldNet, num_iters::Int)
 end
 
 function allRWfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
-    save(file, "num_iters", num_iters, "allRuns", allRWstartingAtOrigin(w, num_iters))
+	dict = Dict{ASCIIString, Any}()
+	dict["num_nodes"] = w.num_nodes
+	dict["num_iters"] = num_iters
+	dict["runs"] = allRWfromOrigin(w, num_iters)
+    save(file, dict)
+end
+
+function avgRWfromOrigin(file::String)
+	num_nodes = load(file, "num_nodes")
+	num_iters = load(file, "num_iters")
+	runs = load(file, "runs")
+
+	out = Array(Float64, (num_nodes-1, 2))
+
+	means = [mean(runs[:,i]) for i in 1:num_nodes-1]
+	stds = [std(runs[:,i]) for i in 1:num_nodes-1]
+
+	out[:,1] = means
+	out[:,2] = stds/sqrt(num_iters)
+
+	out
 end
 
 
