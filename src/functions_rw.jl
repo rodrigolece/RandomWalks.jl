@@ -73,6 +73,26 @@ function runsRandom2(w::SmallWorldNet, first_node::Int, second_node::Int, num_it
     return runs
 end
 
+
+
+function allRWfromOrigin(w::SmallWorldNet, num_iters::Int)
+    out = Array(Int, (num_iters,w.num_nodes-1))
+
+    first_node = 1
+
+    for (i,second_node) in enumerate(2:w.num_nodes)
+        out[:,i] = runsRandom2(w,first_node,second_node,num_iters)
+    end
+
+    out
+end
+
+function allRWfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+    save(file, "num_iters", num_iters, "allRuns", allRWstartingAtOrigin(w, num_iters))
+end
+
+
+
 function avgRandomWalk2(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
     distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsRandom2(w,first_node,second_node,num_iters)

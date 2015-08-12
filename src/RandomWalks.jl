@@ -1,6 +1,8 @@
 module RandomWalks
 
 
+using JLD
+
 import Base:
 	show
 
@@ -12,6 +14,7 @@ export
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
 	randomStep, randomWalk,# histRandomWalk,
 	randomWalk2, runsRandom2, avgRandomWalk2,# convergenceAvgRandomWalk2, histRandomWalk2,
+	allRWfromOrigin,
 	randomWalkUntil, runsUntil, avgRandomWalkUntil#, histRandomWalkUntil
 
 
