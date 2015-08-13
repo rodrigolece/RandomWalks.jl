@@ -102,11 +102,11 @@ function avgRWfromOrigin(file::String)
 
 	out = Array(Float64, (num_nodes-1, 2))
 
-	means = [mean(runs[:,i]) for i in 1:num_nodes-1]
-	stds = [std(runs[:,i]) for i in 1:num_nodes-1]
+	μs = [mean(runs[:,i]) for i in 1:num_nodes-1]
+	σs = [stdm(runs[:,i], μs[i]) for i in 1:num_nodes-1]
 
-	out[:,1] = means
-	out[:,2] = stds/sqrt(num_iters)
+	out[:,1] = μ
+	out[:,2] = σs/sqrt(num_iters)
 
 	out
 end
@@ -117,7 +117,7 @@ function avgRandomWalk2(w::SmallWorldNet, first_node::Int, second_node::Int, num
     distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsRandom2(w,first_node,second_node,num_iters)
     μ = mean(runs)
-    σ = std(runs)
+    σ = stdm(runs, μ)
 
     return distance, μ, σ/sqrt(num_iters)
 end
