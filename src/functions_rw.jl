@@ -100,19 +100,20 @@ function avgRWfromOrigin(file::String)
 	num_iters = load(file, "num_iters")
 	runs = load(file, "runs")
 
-	out = Array(Float64, (num_nodes-1, 2))
+	out = Array(Float64, (num_nodes, 2))
+	out[1,:] = [0.,0.] # Esto nos facilita manejar las dimensiones
 
 	μs = [mean(runs[:,i]) for i in 1:num_nodes-1]
 	σs = [stdm(runs[:,i], μs[i]) for i in 1:num_nodes-1]
 
-	out[:,1] = μ
-	out[:,2] = σs/sqrt(num_iters)
+	out[2:end,1] = μs
+	out[2:end,2] = σs/sqrt(num_iters)
 
 	out
 end
 
 
-
+# Nos gutaría que esta función utilizara la de arriba que calcula pormedios y escribe con JLD
 function avgRandomWalk2(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
     distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsRandom2(w,first_node,second_node,num_iters)
