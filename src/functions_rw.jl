@@ -113,6 +113,33 @@ function avgRWfromOrigin(file::String)
 end
 
 
+function avgConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
+    w = SmallWorldNet(num_nodes,num_neighs,p)
+    allRWfromOrigin(w, num_iters, "/tmp/tmp.jld")
+    avgs = avgRWfromOrigin("/tmp/tmp.jld")[:,1]
+    # Cómo se calcula el error?
+
+    for i in 1:num_configs - 1
+        w = SmallWorldNet(num_nodes,num_neighs,p)
+        allRWfromOrigin(w, num_iters, "/tmp/tmp.jld")
+        avgs += avgRWfromOrigin("/tmp/tmp.jld")[:,1]
+    end
+
+    avgs/num_configs
+end
+
+function avgConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+    dict = Dict{ASCIIString, Any}()
+    dict["num_nodes"] = num_nodes
+    dict["num_neighs"] = num_neighs
+    dict["p"] = p
+    dict["num_iters"] = num_iters
+    dict["num_configs"] = num_configs
+    dict["avg"] = avgConfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    save(file, dict)
+end
+
+
 # Nos gutaría que esta función utilizara la de arriba que calcula pormedios y escribe con JLD
 function avgRandomWalk2(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
     distance = pathLengthsFromNode(w,first_node)[second_node]
