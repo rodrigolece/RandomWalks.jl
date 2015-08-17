@@ -10,7 +10,7 @@ import Base:
 export
 	SmallWorldNet, SmallWorldNetWithNoStep,
 	hasNode, addNode!, addEdge!, getNeighbours,
-	circleGraph,
+# 	circleGraph,
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
 	randomStep, randomWalk,# histRandomWalk,
 	randomWalk2, runsRandom2, avgRandomWalk2,# convergenceAvgRandomWalk2, histRandomWalk2,
@@ -19,7 +19,7 @@ export
 
 
 include("nets.jl")
-include("circlegraph.jl")
+# include("circlegraph.jl")
 include("pathlengths.jl")
 include("functions_rw.jl")
 
