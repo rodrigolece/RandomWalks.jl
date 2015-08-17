@@ -52,20 +52,18 @@ end
 ## El constructor completo-------------------------- ##
 
 function addNeighbourEdges!(w::SmallWorldNet)
-	# Esto se cambia con mod1
-    modulo = Dict{Int,Int}()
-    for i in 0:w.num_nodes-1
-        modulo[-i] = w.num_nodes - i
-        modulo[i+1] = i+1
-        modulo[w.num_nodes+i] = i
-    end
-
     for n in 1:w.num_nodes
-        rango = [n - div(w.num_neighs,2):n-1, n+1:n + div(w.num_neighs,2)]
-        traducido = [modulo[t] for t in rango]
-        for n2 in traducido
-            addEdge!(w, n, n2)
+		vecinos_cada_lado = div(w.num_neighs, 2)
+
+		# Vecinos a la izquierda
+        for n2 in n - vecinos_cada_lado:n-1
+            addEdge!(w, n, mod1(n2,w.num_nodes))
         end
+
+		# Vecinos a la derecha
+		for n2 in n+1:n+vecinos_cada_lado
+			addEdge!(w, n, mod1(n2,w.num_nodes))
+		end
     end
 end
 
