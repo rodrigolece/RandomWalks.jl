@@ -1,8 +1,9 @@
+using PyPlot
 
 ## Para graficar la red ------------------------------- ##
 function nodeLocations(w::SmallWorldNet)
     divi = 2pi / w.num_nodes
-    angs = [0:divi:2pi-divi]
+	angs = linspace(0,2pi-divi, w.num_nodes)
 
 	xs = Array(Float64,w.num_nodes) ; ys = Array(Float64,w.num_nodes)
 
@@ -16,8 +17,9 @@ end
 
 function circleGraph(w::SmallWorldNet)
     plt.figure(figsize=(5,5))
-    plt.xlim(-1.05, 1.05)
-    plt.ylim(-1.05, 1.05)
+	δ = 0.05
+    plt.xlim(-1-δ, 1+δ)
+    plt.ylim(-1-δ, 1+δ)
 
     xs, ys = nodeLocations(w)
 

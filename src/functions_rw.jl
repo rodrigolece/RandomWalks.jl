@@ -73,11 +73,79 @@ function runsRandom2(w::SmallWorldNet, first_node::Int, second_node::Int, num_it
     return runs
 end
 
+
+
+function allRWfromOrigin(w::SmallWorldNet, num_iters::Int)
+    out = Array(Int, (num_iters,w.num_nodes-1))
+
+    first_node = 1
+
+    for (i,second_node) in enumerate(2:w.num_nodes)
+        out[:,i] = runsRandom2(w,first_node,second_node,num_iters)
+    end
+
+    out
+end
+
+function allRWfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+	dict = Dict{ASCIIString, Any}()
+	dict["num_nodes"] = w.num_nodes
+	dict["num_iters"] = num_iters
+	dict["runs"] = allRWfromOrigin(w, num_iters)
+    save(file, dict)
+end
+
+function avgRWfromOrigin(file::String)
+	num_nodes = load(file, "num_nodes")
+	num_iters = load(file, "num_iters")
+	runs = load(file, "runs")
+
+	out = Array(Float64, (num_nodes, 2))
+	out[1,:] = [0.,0.] # Esto nos facilita manejar las dimensiones
+
+	μs = [mean(runs[:,i]) for i in 1:num_nodes-1]
+	σs = [stdm(runs[:,i], μs[i]) for i in 1:num_nodes-1]
+
+	out[2:end,1] = μs
+	out[2:end,2] = σs/sqrt(num_iters)
+
+	out
+end
+
+
+function avgConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
+    w = SmallWorldNet(num_nodes,num_neighs,p)
+    allRWfromOrigin(w, num_iters, "/tmp/tmp.jld")
+    avgs = avgRWfromOrigin("/tmp/tmp.jld")[:,1]
+    # Cómo se calcula el error?
+
+    for i in 1:num_configs - 1
+        w = SmallWorldNet(num_nodes,num_neighs,p)
+        allRWfromOrigin(w, num_iters, "/tmp/tmp.jld")
+        avgs += avgRWfromOrigin("/tmp/tmp.jld")[:,1]
+    end
+
+    avgs/num_configs
+end
+
+function avgConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+    dict = Dict{ASCIIString, Any}()
+    dict["num_nodes"] = num_nodes
+    dict["num_neighs"] = num_neighs
+    dict["p"] = p
+    dict["num_iters"] = num_iters
+    dict["num_configs"] = num_configs
+    dict["avg"] = avgConfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    save(file, dict)
+end
+
+
+# Nos gutaría que esta función utilizara la de arriba que calcula pormedios y escribe con JLD
 function avgRandomWalk2(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
     distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsRandom2(w,first_node,second_node,num_iters)
     μ = mean(runs)
-    σ = std(runs)
+    σ = stdm(runs, μ)
 
     return distance, μ, σ/sqrt(num_iters)
 end
