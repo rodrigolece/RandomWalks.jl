@@ -4,7 +4,7 @@ using RandomWalks
 
 facts("Pruebas de las funciones de caminatas aleatorias") do
 	srand(1)
-	num_nodes = 10 ; num_neighs = 2 ; p = 0.1
+	num_nodes = 10 ; num_neighs = 1 ; p = 0.1
 	w = SmallWorldNet(num_nodes, num_neighs, p)
 
 	node = 1 ; srand(1)
