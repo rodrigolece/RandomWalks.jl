@@ -53,15 +53,13 @@ end
 
 function addNeighbourEdges!(w::SmallWorldNet)
     for n in 1:w.num_nodes
-		vecinos_cada_lado = div(w.num_neighs, 2)
-
 		# Vecinos a la izquierda
-        for n2 in n - vecinos_cada_lado:n-1
+        for n2 in n - w.num_neighs:n-1
             addEdge!(w, n, mod1(n2,w.num_nodes))
         end
 
 		# Vecinos a la derecha
-		for n2 in n+1:n+vecinos_cada_lado
+		for n2 in n+1:n + w.num_neighs
 			addEdge!(w, n, mod1(n2,w.num_nodes))
 		end
     end
@@ -69,7 +67,7 @@ end
 
 function addRandomEdges!(w::SmallWorldNet)
     cont = 1.
-    while cont <= w.p*w.num_nodes*w.num_neighs/2
+    while cont <= w.p*w.num_nodes*w.num_neighs
         n1 = rand(1:w.num_nodes)
         n2 = rand(1:w.num_nodes)
         if n1 != n2

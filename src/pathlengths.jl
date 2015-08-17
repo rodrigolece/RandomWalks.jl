@@ -40,7 +40,7 @@ function allPathLengths(w::SmallWorldNet)
 end
 
 function pathLengthsHist(w::SmallWorldNet)
-    out = zeros(Int, fld(w.num_nodes, w.num_neighs) + 1) #La longitud maxima
+    out = zeros(Int, fld(w.num_nodes, 2*w.num_neighs) + 1) #La longitud maxima
 
     for n in 1:w.num_nodes
         for n2 in values(pathLengthsFromNode(w, n))
