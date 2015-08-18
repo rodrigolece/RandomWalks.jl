@@ -15,7 +15,8 @@ export
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,
-	firstPassage, runsFirstPassage, meanFP#, histRandomWalkUntil
+	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
+	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace
 
 
 include("nets.jl")

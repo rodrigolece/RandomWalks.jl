@@ -63,6 +63,16 @@ function runsFirstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int,
     runs
 end
 
+# Nos gutaría que esta función utilizara la de abajo que calcula promedios y escribe con JLD
+function meanFE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
+    distance = pathLengthsFromNode(w,first_node)[second_node]
+    runs = runsFirstEncounter(w,first_node,second_node,num_iters)
+    μ = mean(runs)
+    σ = stdm(runs, μ)
+
+    return distance, μ, σ/sqrt(num_iters)
+end
+
 
 
 function allFEfromOrigin(w::SmallWorldNet, num_iters::Int)
@@ -130,15 +140,6 @@ function meanFEConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
 end
 
 
-# Nos gutaría que esta función utilizara la de arriba que calcula pormedios y escribe con JLD
-function meanFE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
-    distance = pathLengthsFromNode(w,first_node)[second_node]
-    runs = runsFirstEncounter(w,first_node,second_node,num_iters)
-    μ = mean(runs)
-    σ = stdm(runs, μ)
-
-    return distance, μ, σ/sqrt(num_iters)
-end
 
 ## Para graficar la convergencia del promedio -------- ##
 
@@ -215,6 +216,74 @@ function meanFP(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
 
     return distance, μ, σ/sqrt(num_iters)
 end
+
+
+
+function allFPfromOrigin(w::SmallWorldNet, num_iters::Int)
+    out = Array(Int, (num_iters,w.num_nodes-1))
+
+    init_node = 1
+
+    for (i,target_node) in enumerate(2:w.num_nodes)
+        out[:,i] = runsFirstPassage(w,init_node,target_node,num_iters)
+    end
+
+    out
+end
+
+function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+	dict = Dict{ASCIIString, Any}()
+	dict["num_nodes"] = w.num_nodes
+	dict["num_iters"] = num_iters
+	dict["runs"] = allFPfromOrigin(w, num_iters)
+    save(file, dict)
+end
+
+function meanFPfromOrigin(file::String)
+	num_nodes = load(file, "num_nodes")
+	num_iters = load(file, "num_iters")
+	runs = load(file, "runs")
+
+	out = Array(Float64, (num_nodes, 2))
+	out[1,:] = [0.,0.] # Esto nos facilita manejar las dimensiones
+
+	μs = [mean(runs[:,i]) for i in 1:num_nodes-1]
+	σs = [stdm(runs[:,i], μs[i]) for i in 1:num_nodes-1]
+
+	out[2:end,1] = μs
+	out[2:end,2] = σs/sqrt(num_iters)
+
+	out
+end
+
+
+function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
+    w = SmallWorldNet(num_nodes,num_neighs,p)
+    allFPfromOrigin(w, num_iters, "/tmp/tmp.jld")
+    avgs = meanFPfromOrigin("/tmp/tmp.jld")[:,1]
+    # Cómo se calcula el error?
+
+    for i in 1:num_configs - 1
+        w = SmallWorldNet(num_nodes,num_neighs,p)
+        allFPfromOrigin(w, num_iters, "/tmp/tmp.jld")
+        avgs += meanFPfromOrigin("/tmp/tmp.jld")[:,1]
+    end
+
+    avgs/num_configs
+end
+
+function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+    dict = Dict{ASCIIString, Any}()
+    dict["num_nodes"] = num_nodes
+    dict["num_neighs"] = num_neighs
+    dict["p"] = p
+    dict["num_iters"] = num_iters
+    dict["num_configs"] = num_configs
+    dict["avg"] = meanFEConfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    save(file, dict)
+end
+
+
 
 ## La distibución de tiempos de primera llegada -------------- ##
 
