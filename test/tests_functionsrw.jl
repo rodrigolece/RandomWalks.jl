@@ -15,16 +15,19 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 
 	# Funciones para 2 caminantes
 	first_node = 1 ; second_node = 6 ; srand(1)
-	@fact randomWalk2(w,first_node,second_node) --> 5
+	@fact firstEncounter(w,first_node,second_node) --> 5
 
 	num_iters = 10 ; srand(1)
-	runs = runsRandom2(w,first_node,second_node,num_iters)
+	runs = runsFirstEncounter(w,first_node,second_node,num_iters)
 	@fact length(runs) --> num_iters
 	@fact runs[1] --> 5
 	@fact runs[end] --> 3
 
 	num_iters = 100 ; srand(1)
-	@fact avgRandomWalk2(w,first_node,second_node,num_iters) --> (4,10.88,0.7703180505413975)
+	@fact meanFE(w,first_node,second_node,num_iters) --> (4,10.88,0.7703180505413975)
+
+	# --- Faltan tests de los promedios --- #
+	# ------------------------------------- #
 
 	# Funciones para primera llegada
 	init_node = 1 ; target_node = 6 ; srand(1)
