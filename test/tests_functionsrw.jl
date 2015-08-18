@@ -1,6 +1,3 @@
-using FactCheck
-
-using RandomWalks
 
 facts("Pruebas de las funciones de caminatas aleatorias") do
 	srand(1)

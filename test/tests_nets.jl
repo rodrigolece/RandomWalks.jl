@@ -1,6 +1,3 @@
-using FactCheck
-
-using RandomWalks
 
 facts("Pruebas del módulo Nets") do
 	num_nodes = 10 ; node = 1
