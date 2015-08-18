@@ -184,15 +184,7 @@ end
 ## ------------------ Primera llegada ------------------ ##
 ## ----------------------------------------------------- ##
 
-function randomWalkUntil(w::SmallWorldNet, init_node::Int, target_node::Int)
-    if !hasNode(w,init_node)
-        print("Initial node = $init_node not in network")
-        return
-    elseif !hasNode(w,target_node)
-		print("Infinite cycle, target node = $target_node not in network")
-		return
-    end
-
+function firstPassage(w::SmallWorldNet, init_node::Int, target_node::Int)
     t = 0
     n = init_node
 
@@ -201,21 +193,23 @@ function randomWalkUntil(w::SmallWorldNet, init_node::Int, target_node::Int)
         t += 1
     end
 
-    return t
+    t
 end
 
-function runsUntil(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
+function runsFirstPassage(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
     runs = Int[]
     sizehint(runs, num_iters)
+
     for i in 1:num_iters
-        push!(runs, randomWalkUntil(w,init_node,target_node))
+        push!(runs, firstPassage(w,init_node,target_node))
     end
-    return runs
+
+    runs
 end
 
-function avgRandomWalkUntil(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
+function meanFP(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
     distance = pathLengthsFromNode(w,init_node)[target_node]
-    runs = runsUntil(w,init_node,target_node,num_iters)
+    runs = runsFirstPassage(w,init_node,target_node,num_iters)
     μ = mean(runs)
     σ = std(runs)
 

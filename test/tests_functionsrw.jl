@@ -26,19 +26,20 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 	num_iters = 100 ; srand(1)
 	@fact meanFE(w,first_node,second_node,num_iters) --> (4,10.88,0.7703180505413975)
 
+	# ------------------------------------- #
 	# --- Faltan tests de los promedios --- #
 	# ------------------------------------- #
 
 	# Funciones para primera llegada
 	init_node = 1 ; target_node = 6 ; srand(1)
-	@fact randomWalkUntil(w,init_node,target_node) --> 33
+	@fact firstPassage(w,init_node,target_node) --> 33
 
 	num_iters = 10 ; srand(1)
-	runs = runsUntil(w,init_node,target_node,num_iters)
+	runs = runsFirstPassage(w,init_node,target_node,num_iters)
 	@fact length(runs) --> num_iters
 	@fact runs[1] --> 33
 	@fact runs[end] --> 46
 
 	num_iters = 100 ; srand(1)
-	@fact avgRandomWalkUntil(w,init_node,target_node,num_iters) --> (4,23.07,1.670677295668624)
+	@fact meanFP(w,init_node,target_node,num_iters) --> (4,23.07,1.670677295668624)
 end
