@@ -13,9 +13,10 @@ export
 # 	circleGraph,
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
 	randomStep, randomWalk,# histRandomWalk,
-	randomWalk2, runsRandom2, avgRandomWalk2,# convergenceAvgRandomWalk2, histRandomWalk2,
-	allRWfromOrigin, avgRWfromOrigin, avgConfigSpace,
-	randomWalkUntil, runsUntil, avgRandomWalkUntil#, histRandomWalkUntil
+	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
+	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,
+	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
+	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace
 
 
 include("nets.jl")

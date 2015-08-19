@@ -1,6 +1,3 @@
-using FactCheck
-
-using RandomWalks
 
 facts("Pruebas de las funciones para calcular distancias") do
 	srand(1)
