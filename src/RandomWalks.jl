@@ -16,13 +16,15 @@ export
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
-	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace
+	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace,
+	deg, iterExactEnum, firstEncounterEE
 
 
 include("nets.jl")
 # include("circlegraph.jl")
 include("pathlengths.jl")
 include("functions_rw.jl")
+include("exact_enum.jl")
 
 
 
