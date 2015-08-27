@@ -24,27 +24,34 @@ function iterExactEnum(w::SmallWorldNet, p0_vec::Vector{Float64}, num_iters::Int
     out
 end
 
+function exactEnum2D(w::SmallWorldNet, p1_vec::Vector{Float64}, p2_vec::Vector{Float64})
+    p_mat = p1_vec*p2_vec'
+
+    encountered = diag(p_mat)
+    p = sum(encountered)
+
+    # Actualizamos las posiciones
+    p1_vec = exactEnum(w,p1_vec - encountered)
+    # Falta un criterio de que la caminata es asíncrona
+    p2_vec = exactEnum(w,p2_vec - encountered)
+
+    p, p1_vec, p2_vec
+end
+
 function firstEncounterEE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
-    intrsct = Array(Float64, (w.num_nodes, num_iters))
+    out = Array(Float64,num_iters)
 
     p1_vec = zeros(w.num_nodes) ; p1_vec[first_node] = 1.
     p2_vec = zeros(w.num_nodes) ; p2_vec[second_node] = 1.
 
-    enum1 = iterExactEnum(w,p1_vec,num_iters+1)
-    enum2 = iterExactEnum(w,p2_vec,num_iters)
-
     for iter in 1:num_iters
-        # La camnata es asíncrona, las probas se calculan despúes de que el 1er caminanta da un paso
-        intrsct[:,iter] = enum1[:,iter+1] .* enum2[:,iter]
+        p, p1_vec, p2_vec = exactEnum2D(w,p1_vec,p2_vec)
+        out[iter] = p
     end
 
-    # Suma sobre cada columna
-    ps = sum(intrsct, 1)
+	# Descartamos primeras entradas que son cero?
 
-	# Descartamos primeras entradas que son cero
-	first_time, new_ps = discardZeros(ps)
-
-	first_time, new_ps
+    out
 end
 
 function discardZeros(ps::Array{Float64,2})
@@ -54,5 +61,6 @@ function discardZeros(ps::Array{Float64,2})
         i += 1
     end
 
+	# Al tomar elementos con slice, obtenemos Vector
     i, ps[i:end]
 end
