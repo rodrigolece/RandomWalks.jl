@@ -25,9 +25,7 @@ function iterExactEnum(w::SmallWorldNet, p0_vec::Vector{Float64}, num_iters::Int
 end
 
 function exactEnum2D(w::SmallWorldNet, p1_vec::Vector{Float64}, p2_vec::Vector{Float64})
-    p_mat = p1_vec*p2_vec'
-
-    encountered = diag(p_mat)
+    encountered = p1_vec .*p2_vec
     p = sum(encountered)
 
     # Actualizamos las posiciones
@@ -39,22 +37,41 @@ function exactEnum2D(w::SmallWorldNet, p1_vec::Vector{Float64}, p2_vec::Vector{F
 end
 
 function firstEncounterEE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
-    out = Array(Float64,num_iters)
+    p_encounter = Array(Float64,num_iters)
 
     p1_vec = zeros(w.num_nodes) ; p1_vec[first_node] = 1.
     p2_vec = zeros(w.num_nodes) ; p2_vec[second_node] = 1.
 
     for iter in 1:num_iters
         p, p1_vec, p2_vec = exactEnum2D(w,p1_vec,p2_vec)
-        out[iter] = p
+        p_encounter[iter] = p
     end
 
-	# Descartamos primeras entradas que son cero?
+	# Descartamos primeras entradas que son cero ?
+	# first_time, p_encounter = discardZeros(p_encounter)
 
-    out
+	p_encounter
 end
 
-function discardZeros(ps::Array{Float64,2})
+function firstEncounterEE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int, file::String)
+	dict = Dict{ASCIIString, Any}()
+	dict["first_node"] = first_node
+	dict["second_node"] = second_node
+	dict["num_iters"] = num_iters
+	dict["p_encounter"] = firstEncounterEE(w, first_node, second_node, num_iters)
+	save(file, dict)
+end
+
+function meanFEEE(file::String)
+	num_iters = load(file, "num_iters")
+	p_encounter = load(file, "p_encounter")
+
+    times = [1:num_iters]
+
+    sum(times .* p_encounter)
+end
+
+function discardZeros(ps::Vector{Float64})
     i = 1
 
     while ps[i] == 0
