@@ -10,7 +10,7 @@ import Base:
 export
 	SmallWorldNet, SmallWorldNetWithNoStep,
 	hasNode, addNode!, addEdge!, getNeighbours,
-	Net2D
+	Net2D,
 # 	circleGraph,
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
 	randomStep, randomWalk,# histRandomWalk,
