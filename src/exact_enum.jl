@@ -41,5 +41,5 @@ function firstEncounterEE(z::Net2D, first_node::Int, second_node::Int, num_iters
 
 	# Descartamos primeras entradas que son cero ?
 
-	p_encounter
+	p_encounter, p_mat
 end
