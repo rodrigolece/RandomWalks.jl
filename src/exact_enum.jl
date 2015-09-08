@@ -1,9 +1,4 @@
 
-deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
-
-deg(z::Net2D, site::(Int,Int)) = length(z.neighbours[site])
-
-
 function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64,2})
     # Calculamos la proba de encuentro
     p = sum(diag(p_mat))
@@ -17,7 +12,7 @@ function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64
     # Actualizamos las probabilidades
 
     for (site, neighs) in z.neighbours
-        contribution = p_mat[site...]/deg(z,site)
+        contribution = p_mat[site...]/z.degrees[site...]
         p_mat[site...] = 0.
 
         for neigh in neighs

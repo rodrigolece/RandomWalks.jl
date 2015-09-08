@@ -107,9 +107,19 @@ end
 type Net2D
     num_nodes::Int
     neighbours::Dict{(Int,Int), Vector{(Int,Int)}}
+	degrees::Array{Int,2}
 
     function Net2D(w::SmallWorldNet)
-        new(w.num_nodes,neighbours2D(w))
+		num_nodes = w.num_nodes
+		neighbours = neighbours2D(w)
+
+		degrees = Array(Int, (num_nodes,num_nodes))
+
+		for (site,neighs) in neighbours
+			degrees[site...] = length(neighbours[site...])
+		end
+
+        new(num_nodes,neighbours,degrees)
     end
 end
 
@@ -133,3 +143,7 @@ function neighbours2D(w::SmallWorldNet)
 
     neighs
 end
+
+
+deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
+deg(z::Net2D, site::(Int,Int)) = length(z.neighbours[site])
