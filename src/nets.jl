@@ -106,29 +106,24 @@ end
 
 type Net2D
     num_nodes::Int
-    neighbours::Dict{(Int,Int), Vector{(Int,Int)}}
+    neighbours::Array{Vector{(Int,Int)},2}
 	degrees::Array{Int,2}
 
     function Net2D(w::SmallWorldNet)
-		num_nodes = w.num_nodes
-		neighbours = neighbours2D(w)
+		neighbours, degrees = neighbours2D(w)
 
-		degrees = Array(Int, (num_nodes,num_nodes))
-
-		for (site,neighs) in neighbours
-			degrees[site...] = length(neighbours[site...])
-		end
-
-        new(num_nodes,neighbours,degrees)
+        new(w.num_nodes,neighbours,degrees)
     end
 end
 
 show(io::IO, z::Net2D) = println(io, "2D formed from $(z.num_nodes) nodes")
 
 function neighbours2D(w::SmallWorldNet)
-    neighs = Dict{(Int,Int), Vector{(Int,Int)}}()
+	nn = w.num_nodes
+    neighs = Array(Vector{(Int,Int)}, (nn,nn))
+	degs = Array(Int, (nn,nn))
 
-    for site_i in 1:w.num_nodes, site_j in 1:w.num_nodes
+    for site_i in 1:nn, site_j in 1:nn
         neighs_i = getNeighbours(w, site_i)
         neighs_j = getNeighbours(w, site_j)
 
@@ -138,10 +133,11 @@ function neighbours2D(w::SmallWorldNet)
             push!(tmp, (ni,nj))
         end
 
-        neighs[(site_i,site_j)] = tmp
+        neighs[site_i,site_j] = tmp
+		degs[site_i,site_j] = length(tmp)
     end
 
-    neighs
+    neighs, degs
 end
 
 

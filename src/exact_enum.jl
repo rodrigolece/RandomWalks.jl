@@ -1,21 +1,22 @@
 
 function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64,2})
+	nn = z.num_nodes
     # Calculamos la proba de encuentro
     p = sum(diag(p_mat))
 
     # Extraemos esta probabilidad
-    for ind in 1:z.num_nodes
+    for ind in 1:nn
         p_mat[ind,ind] = 0.
     end
 
 
     # Actualizamos las probabilidades
 
-    for (site, neighs) in z.neighbours
-        contribution = p_mat[site...]/z.degrees[site...]
-        p_mat[site...] = 0.
+    for site_i in 1:nn, site_j in 1:nn
+        contribution = p_mat[site_i,site_j] / z.degrees[site_i,site_j]
+        p_mat[site_i,site_j] = 0.
 
-        for neigh in neighs
+        for neigh in z.neighbours[site_i,site_j]
             # Estamos suponiendo que old_p_mat siempre es un arreglo de ceros
             old_p_mat[neigh...] += contribution
         end
