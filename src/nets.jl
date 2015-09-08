@@ -102,3 +102,34 @@ function SmallWorldNetWithNoStep(w::SmallWorldNet)
 
     w_lazy
 end
+
+
+type Net2D
+    num_nodes::Int
+    neighbours::Dict{(Int,Int), Vector{(Int,Int)}}
+
+    function Net2D(w::SmallWorldNet)
+        new(w.num_nodes,neighbours2D(w))
+    end
+end
+
+show(io::IO, z::Net2D) = println(io, "2D formed from $(z.num_nodes) nodes")
+
+function neighbours2D(w::SmallWorldNet)
+    neighs = Dict{(Int,Int), Vector{(Int,Int)}}()
+
+    for site_i in 1:w.num_nodes, site_j in 1:w.num_nodes
+        neighs_i = getNeighbours(w, site_i)
+        neighs_j = getNeighbours(w, site_j)
+
+        tmp = (Int,Int)[]
+
+        for ni in neighs_i, nj in neighs_j
+            push!(tmp, (ni,nj))
+        end
+
+        neighs[(site_i,site_j)] = tmp
+    end
+
+    neighs
+end
