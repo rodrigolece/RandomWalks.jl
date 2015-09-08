@@ -18,7 +18,7 @@ export
 	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
 	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace,
-	deg, firstEncounterEE#, meanFEEE
+	deg, firstEncounterEE, meanFEEE
 
 
 include("nets.jl")

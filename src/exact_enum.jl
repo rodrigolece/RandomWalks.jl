@@ -45,5 +45,21 @@ function firstEncounterEE(z::Net2D, first_node::Int, second_node::Int, num_iters
         p_encounter[iter] = p
     end
 
-	p_encounter, p_mat
+	p_encounter#, p_mat
+end
+
+function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max)
+    # Las primeras probas se calculan con enumeración exacta
+    times = 1:t_max
+
+#     distrib , p_mat = firstEncounterEE(z, first_node, second_node, t_max)
+    distrib = firstEncounterEE(z, first_node, second_node, t_max)
+
+    # Y lo que queda es la cola exponencial
+
+    α = 1/10*log(distrib[t_max-10]/distrib[t_max])
+    tail = distrib[t_max]*( t_max/α + 1/α^2 )
+
+
+    τ = sum(times .* distrib) + tail
 end
