@@ -49,7 +49,7 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 	@fact runs[end] --> 46
 
 	num_iters = 100 ; srand(1)
-	@fact meanFP(w,init_node,target_node,num_iters) --> (4,23.07,1.670677295668624)
+	@fact meanFP(w,init_node,target_node,num_iters) --> (4,23.07,1.6706772956686238)
 
 	num_iters = 1; srand(1)
 	@fact allFPfromOrigin(w,num_iters) --> [3 2 15 12 23 58 24 2 5]

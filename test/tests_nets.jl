@@ -14,11 +14,11 @@ facts("Pruebas del módulo Nets") do
 	w = SmallWorldNet(num_nodes, num_neighs, p)
 
 	@fact length(w.neighbours) --> num_nodes
-	@fact length(getNeighbours(w,1)) --> 2*num_neighs
+	@fact length(getNeighbours(w,node)) --> 2*num_neighs
 
 	# Pruebas de la condición de frontera cíclica
 	@fact 2 in getNeighbours(w,1) --> true
-	@fact num_nodes in getNeighbours(w,1) --> true
+	@fact num_nodes in getNeighbours(w,node) --> true
 
 	n1 = 1 ; n2 = 5
 	addEdge!(w,n1,n2)
