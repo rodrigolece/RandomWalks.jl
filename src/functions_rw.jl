@@ -2,7 +2,7 @@
 function randomStep(w::SmallWorldNet, node::Int)
     choices = getNeighbours(w,node)
 
-	choices[rand(1:length(t))]
+	choices[rand(1:length(choices))]
 end
 
 function randomWalk(w::SmallWorldNet, node::Int, num_iters::Int)
