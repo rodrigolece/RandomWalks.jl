@@ -9,7 +9,10 @@ type SmallWorldNet
 
     function SmallWorldNet(num_nodes::Int)
         neighbours = Array(Vector{Int},num_nodes)
-        fill!(neighbours, [])
+		for n in eachindex(neighbours)
+			neighbours[n] = []
+		end
+#         fill!(neighbours, [])
         new(num_nodes, 0, 0., neighbours)
     end
 end
@@ -54,12 +57,12 @@ end
 function addNeighbourEdges!(w::SmallWorldNet)
     for n in 1:w.num_nodes
 		# Vecinos a la izquierda
-        for n2 in n - w.num_neighs:n-1
+        for n2 in (n - w.num_neighs):(n - 1)
             addEdge!(w, n, mod1(n2,w.num_nodes))
         end
 
 		# Vecinos a la derecha
-		for n2 in n+1:n + w.num_neighs
+		for n2 in (n + 1):(n + w.num_neighs)
 			addEdge!(w, n, mod1(n2,w.num_nodes))
 		end
     end
@@ -142,4 +145,4 @@ end
 
 
 deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
-deg(z::Net2D, site::(Int,Int)) = length(z.neighbours[site])
+deg(z::Net2D, site::Tuple{Int,Int}) = length(z.neighbours[site])
