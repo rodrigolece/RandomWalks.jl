@@ -3,7 +3,7 @@
 
 function pathLengthsFromNode(w::SmallWorldNet, n::Int)
     d = 0
-    distances = [n => d]
+    distances = Dict(n => d)
     current_shell = [n]
 
     while length(current_shell) > 0
@@ -20,11 +20,11 @@ function pathLengthsFromNode(w::SmallWorldNet, n::Int)
         current_shell = next_shell
     end
 
-    return distances
+    distances
 end
 
 function allPathLengths(w::SmallWorldNet)
-    full_dict = Dict{(Int,Int),Int}()
+    full_dict = Dict{Tuple{Int,Int},Int}()
 
     for first_node in 1:w.num_nodes
         distances = pathLengthsFromNode(w, first_node)
@@ -36,7 +36,7 @@ function allPathLengths(w::SmallWorldNet)
         end
     end
 
-    return full_dict
+    full_dict
 end
 
 function pathLengthsHist(w::SmallWorldNet)
@@ -48,8 +48,9 @@ function pathLengthsHist(w::SmallWorldNet)
         end
     end
 
-    out = int(out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces
-    return out           		#excepto la distancia de un nodo a él mismo
+    out = Int(out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces excepto la distancia de un nodo a él mismo
+
+	out
 end
 
 function avgPathLength(w::SmallWorldNet)
@@ -57,12 +58,12 @@ function avgPathLength(w::SmallWorldNet)
     p = 0.
     total = 0
 
-    for i in 1:length(distrib)
+    for i in eachindex(distrib)
         p += (i-1)*distrib[i] #el -1 se debe a que distrib[1] es la distancia 0
         total += distrib[i]
     end
 
-    p /= total
+    p / total
 end
 
 function maxPathLength(w::SmallWorldNet)

@@ -1,7 +1,8 @@
 
 function randomStep(w::SmallWorldNet, node::Int)
-    t = getNeighbours(w,node)
-    return t[rand(1:length(t))]
+    choices = getNeighbours(w,node)
+
+	choices[rand(1:length(t))]
 end
 
 function randomWalk(w::SmallWorldNet, node::Int, num_iters::Int)
@@ -70,7 +71,7 @@ function meanFE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::
     μ = mean(runs)
     σ = stdm(runs, μ)
 
-    return distance, μ, σ/sqrt(num_iters)
+    distance, μ, σ/sqrt(num_iters)
 end
 
 
@@ -214,7 +215,7 @@ function meanFP(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
     μ = mean(runs)
     σ = std(runs)
 
-    return distance, μ, σ/sqrt(num_iters)
+    distance, μ, σ/sqrt(num_iters)
 end
 
 
@@ -269,7 +270,7 @@ function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
         avgs += meanFPfromOrigin("/tmp/tmp.jld")[:,1]
     end
 
-    avgs/num_configs
+    avgs / num_configs
 end
 
 function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)

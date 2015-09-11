@@ -85,7 +85,7 @@ function SmallWorldNet(num_nodes::Int, num_neighs::Int, p::Float64)
     addNeighbourEdges!(w)
     addRandomEdges!(w)
 
-    return w
+    w
 end
 
 ## La función para agregar a un nodo como su vecino, para caminatas "flojas"-------------------- ##
@@ -97,7 +97,7 @@ function SmallWorldNetWithNoStep(w::SmallWorldNet)
 	w_lazy.p = w.p
 
     for i in 1:w_lazy.num_nodes
-        w_lazy.neighbours[i] = [w.neighbours[i]..., i]
+        w_lazy.neighbours[i] = [w.neighbours[i]; i]
     end
 
     w_lazy
@@ -106,7 +106,7 @@ end
 
 type Net2D
     num_nodes::Int
-    neighbours::Array{Vector{(Int,Int)},2}
+    neighbours::Array{Vector{Tuple{Int,Int}},2}
 	degrees::Array{Int,2}
 
     function Net2D(w::SmallWorldNet)
@@ -120,14 +120,14 @@ show(io::IO, z::Net2D) = println(io, "2D formed from $(z.num_nodes) nodes")
 
 function neighbours2D(w::SmallWorldNet)
 	nn = w.num_nodes
-    neighs = Array(Vector{(Int,Int)}, (nn,nn))
+    neighs = Array(Vector{Tuple{Int,Int}}, (nn,nn))
 	degs = Array(Int, (nn,nn))
 
     for site_i in 1:nn, site_j in 1:nn
         neighs_i = getNeighbours(w, site_i)
         neighs_j = getNeighbours(w, site_j)
 
-        tmp = (Int,Int)[]
+        tmp = Tuple{Int,Int}[]
 
         for ni in neighs_i, nj in neighs_j
             push!(tmp, (ni,nj))
