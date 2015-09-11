@@ -48,7 +48,7 @@ function pathLengthsHist(w::SmallWorldNet)
         end
     end
 
-    out = Int(out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces excepto la distancia de un nodo a él mismo
+    out = round(Int, out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces excepto la distancia de un nodo a él mismo
 
 	out
 end
