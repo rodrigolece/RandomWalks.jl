@@ -55,7 +55,7 @@ end
 
 function runsFirstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
     runs = Int[]
-    sizehint(runs, num_iters)
+    sizehint!(runs, num_iters)
 
     for i in 1:num_iters
         push!(runs, firstEncounter(w,first_node,second_node))
@@ -200,7 +200,7 @@ end
 
 function runsFirstPassage(w::SmallWorldNet, init_node::Int, target_node::Int, num_iters)
     runs = Int[]
-    sizehint(runs, num_iters)
+    sizehint!(runs, num_iters)
 
     for i in 1:num_iters
         push!(runs, firstPassage(w,init_node,target_node))
