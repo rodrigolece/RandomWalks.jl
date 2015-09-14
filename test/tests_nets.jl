@@ -30,4 +30,13 @@ facts("Pruebas del módulo Nets") do
 	srand(1)
 	w = SmallWorldNet(num_nodes, num_neighs, p)
 	@fact 9 in getNeighbours(w,7) --> true
+
+	# Pruebas de Net2D
+	num_nodes = 3 ; num_neighs = 1 ; p = 0.
+	w = SmallWorldNet(num_nodes, num_neighs, p)
+
+	z = Net2D(w) ; site = (2,2)
+	@fact z.num_nodes --> num_nodes
+	@fact z.neighbours[site...] --> [(1,1), (1,3), (3,1), (3,3)]
+	@fact z.degrees[site...] --> 4
 end
