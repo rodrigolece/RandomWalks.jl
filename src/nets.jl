@@ -142,4 +142,4 @@ end
 
 
 deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
-deg(z::Net2D, site::(Int,Int)) = length(z.neighbours[site])
+deg(z::Net2D, site::(Int,Int)) = length(z.neighbours[site...])
