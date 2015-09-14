@@ -56,6 +56,5 @@ function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max)
     α = 1/10*log(distrib[t_max-10]/distrib[t_max])
     tail = distrib[t_max]*( t_max/α + 1/α^2 )
 
-
     τ = sum(times .* distrib) + tail
 end

@@ -15,5 +15,9 @@ include("tests_paths.jl")
 
 include("tests_functionsrw.jl")
 
+# Pruebas de enumeración exacta
+
+include("tests_exactenum.jl")
+
 
 FactCheck.exitstatus()
