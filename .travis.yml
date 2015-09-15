@@ -1,7 +1,7 @@
 language: julia
 
 julia:
-  - release
+  - 0.4
 
 # script: julia ./test/tests_paths.jl
 
@@ -9,4 +9,5 @@ notifications:
   email: false
 
 after_success:
+  - echo $TRAVIS_JULIA_VERSION
   - julia -e 'cd(Pkg.dir("RandomWalks")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
