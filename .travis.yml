@@ -1,7 +1,7 @@
 language: julia
 
 julia:
-  - release
+  - 0.3
 
 # script: julia ./test/tests_paths.jl
 
