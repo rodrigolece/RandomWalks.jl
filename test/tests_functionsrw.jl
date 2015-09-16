@@ -41,7 +41,7 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 # 	meanFEfromOrigin se utiliza en meanFEConfigSpace
 
 	num_iters = 10 ; num_configs = 10 ; srand(1)
-	@fact meanFEConfigSpace(num_nodes,num_neighs,p,num_iters,num_configs) --> roughly([0.0,4.46,6.18,9.79,9.47,10.49,9.59,8.94,8.07,5.05])
+	@fact meanFEconfigSpace(num_nodes,num_neighs,p,num_iters,num_configs) --> roughly([0.0,4.46,6.18,9.79,9.47,10.49,9.59,8.94,8.07,5.05])
 
 	# ------------------------------------- #
 	# ----- Funciones para 1a llegada ----- #
@@ -64,6 +64,6 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 # 	meanFPfromOrigin se utiliza en meanFPConfigSpace
 
 	num_iters = 10 ; num_configs = 10 ; srand(1)
-	@fact meanFPConfigSpace(num_nodes,num_neighs,p,num_iters,num_configs) --> roughly([0.0, 7.33, 16.0, 18.52, 19.59, 26.04, 21.12, 19.5 , 14.88, 9.67])
+	@fact meanFPconfigSpace(num_nodes,num_neighs,p,num_iters,num_configs) --> roughly([0.0, 7.33, 16.0, 18.52, 19.59, 26.04, 21.12, 19.5 , 14.88, 9.67])
 
 end

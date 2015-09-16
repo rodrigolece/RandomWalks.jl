@@ -128,7 +128,7 @@ function meanFEfromOrigin(file::String)
 end
 
 
-function meanFEConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
+function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
     w = SmallWorldNet(num_nodes,num_neighs,p)
     allFEfromOrigin(w, num_iters, "/tmp/tmp.jld")
     avgs = meanFEfromOrigin("/tmp/tmp.jld")[:,1]
@@ -143,14 +143,14 @@ function meanFEConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs/num_configs
 end
 
-function meanFEConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
     dict["p"] = p
     dict["num_iters"] = num_iters
     dict["num_configs"] = num_configs
-    dict["avg"] = meanFEConfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    dict["avg"] = meanFEconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
     save(file, dict)
 end
 
@@ -272,7 +272,7 @@ function meanFPfromOrigin(file::String)
 end
 
 
-function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
+function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int)
     w = SmallWorldNet(num_nodes,num_neighs,p)
     allFPfromOrigin(w, num_iters, "/tmp/tmp.jld")
     avgs = meanFPfromOrigin("/tmp/tmp.jld")[:,1]
@@ -287,14 +287,14 @@ function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs / num_configs
 end
 
-function meanFPConfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
     dict["p"] = p
     dict["num_iters"] = num_iters
     dict["num_configs"] = num_configs
-    dict["avg"] = meanFPConfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    dict["avg"] = meanFPconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
     save(file, dict)
 end
 

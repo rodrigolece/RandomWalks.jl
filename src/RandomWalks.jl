@@ -15,9 +15,9 @@ export
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D,
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
-	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,
+	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
-	allFPfromOrigin, meanFPfromOrigin, meanFPConfigSpace,
+	allFPfromOrigin, meanFPfromOrigin, meanFPconfigSpace,
 	deg, firstEncounterEE, meanFEEE
 
 
