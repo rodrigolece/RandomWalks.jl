@@ -102,7 +102,7 @@ function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max:
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
     dict["p"] = p
-    dict["t_max"] = num_iters
+    dict["t_max"] = t_max
     dict["num_configs"] = num_configs
     dict["means"] = meanFEEEconfigSpace(num_nodes, num_neighs, p, t_max, num_configs)
     save(file, dict)

@@ -1,6 +1,7 @@
 
-using RandomWalks
 using FactCheck
+using RandomWalks
+using JLD
 
 # Pruebas de las redes:
 
