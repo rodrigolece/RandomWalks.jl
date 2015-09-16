@@ -24,4 +24,10 @@ facts("Pruebas de las funciones para calcular distancias") do
 	@fact avgPathLength(w) --> 2.090909090909091
 
 	@fact maxPathLength(w) --> 4
+
+	num_nodes = 4 ; p = 0.
+	w = SmallWorldNet(num_nodes, num_neighs, p)
+	ds = pathLengths2D(w)
+	@fact ds[:,1] --> [0, 1, 2, 1]
+	@fact ds[:,3] --> [2, 1, 0, 1]
 end
