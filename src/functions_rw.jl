@@ -150,7 +150,7 @@ function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     dict["p"] = p
     dict["num_iters"] = num_iters
     dict["num_configs"] = num_configs
-    dict["avg"] = meanFEconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    dict["means"] = meanFEconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
     save(file, dict)
 end
 
@@ -294,7 +294,7 @@ function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     dict["p"] = p
     dict["num_iters"] = num_iters
     dict["num_configs"] = num_configs
-    dict["avg"] = meanFPconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
+    dict["means"] = meanFPconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs)
     save(file, dict)
 end
 
