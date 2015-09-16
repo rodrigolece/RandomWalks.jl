@@ -24,9 +24,19 @@ facts("Pruebas de enumeración exacta") do
 	t_max = 1000
 	@fact meanFEEE(z, first_node, second_node, t_max) --> roughly(554.385; atol=1e-3)
 
-	#meanFEEEcofigSpace
+	# meanFEEEfromOrigin
 	srand(1)
-	num_nodes = 10 ; num_neighs = 2 ; p = 0.2 ; t_max = 20 ; num_configs = 10
+	num_nodes = 10 ; num_neighs = 2 ; p = 0.2 ; t_max = 20
+	w = SmallWorldNet(num_nodes, num_neighs, p)
+	z = Net2D(w)
+
+	meanFEEEfromOrigin(z, t_max, "test.jld")
+	means = load("test.jld", "means")
+	@fact means[1:4] --> roughly( [0.0, 11.6272, 12.5826, 12.8286] ; atol=1e-4)
+
+	# meanFEEEcofigSpace
+	srand(1)
+	num_configs = 10
 	meanFEEEconfigSpace(num_nodes, num_neighs, p, t_max, num_configs, "test.jld")
 	means = load("test.jld", "means")
 	@fact means[1:4] --> roughly( [0.0, 12.4259, 13.0647, 12.3566] ; atol=1e-4)
