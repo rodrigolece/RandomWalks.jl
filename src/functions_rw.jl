@@ -5,21 +5,35 @@ function randomStep(w::SmallWorldNet, node::Int)
 	choices[rand(1:length(choices))]
 end
 
-function randomWalk(w::SmallWorldNet, node::Int, num_iters::Int)
-    if !hasNode(w,node)
-        print("node = $node not in network")
-        return
-    end
+function randomStep(z::Net2D, site::Tuple{Int,Int})
+    choices = z.neighbours[site...]
 
-    trayec = Array(Int,num_iters+1)
-    trayec[1] = node
-
-    for i in 1:num_iters
-        trayec[i+1] = randomStep(w,trayec[i])
-    end
-
-    return trayec
+    choices[rand(1:length(choices))]
 end
+
+
+function randomWalk(w::SmallWorldNet, node::Int, num_iters::Int)
+    out = Array(Int,num_iters)
+    out[1] = node
+
+    for i in 2:num_iters
+        out[i] = randomStep(w,out[i-1])
+    end
+
+    out
+end
+
+function randomWalk(z::Net2D, site::Tuple{Int,Int}, num_iters::Int)
+    out = Array(Tuple{Int,Int},num_iters)
+    out[1] = site
+
+    for i in 2:num_iters
+        out[i] = randomStep(z,out[i-1])
+    end
+
+    out
+end
+
 
 ## La distribución de la caminata aleatoria -------------- ##
 
