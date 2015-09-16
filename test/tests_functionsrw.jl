@@ -9,9 +9,16 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 
 	num_iters = 10 ; srand(1)
 	walk = randomWalk(w,node,num_iters)
-	@fact length(walk) --> num_iters + 1
+	@fact length(walk) --> num_iters
 	@fact walk[1] --> node
-	@fact walk[end] --> 3
+	@fact walk[end] --> 2
+
+	z = Net2D(w) ; site = (2,2) ; srand(1)
+	@fact randomStep(z, site) --> (3,1)
+	num_iters = 5 ; srand(1)
+	walk = randomWalk(z, site, num_iters)
+	@fact walk[1] --> site
+	@fact walk[end] --> (6,7)
 
 	# ------------------------------------- #
 	# --- Funciones para dos caminantes --- #
