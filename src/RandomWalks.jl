@@ -12,7 +12,7 @@ export
 	hasNode, addNode!, addEdge!, getNeighbours,
 	Net2D,
 # 	circleGraph,
-	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength,
+	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D,
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEConfigSpace,

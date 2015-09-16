@@ -77,3 +77,18 @@ function maxPathLength(w::SmallWorldNet)
         end
     end
 end
+
+
+function pathLengths2D(w::SmallWorldNet)
+    nn = w.num_nodes
+    dict_distances = allPathLengths(w)
+
+    out = Array(Int, (nn,nn))
+
+    for i in 1:nn, j in 1:nn
+        ordered = min(i,j), max(i,j)
+        out[i,j] = dict_distances[ordered]
+    end
+
+    out
+end
