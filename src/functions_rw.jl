@@ -134,13 +134,13 @@ function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs = meanFEfromOrigin("/tmp/tmp.jld")[:,1]
     # Cómo se calcula el error?
 
-    for i in 1:num_configs - 1
+    for i in 2:num_configs
         w = SmallWorldNet(num_nodes,num_neighs,p)
         allFEfromOrigin(w, num_iters, "/tmp/tmp.jld")
         avgs += meanFEfromOrigin("/tmp/tmp.jld")[:,1]
     end
 
-    avgs/num_configs
+    avgs / num_configs
 end
 
 function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
@@ -278,7 +278,7 @@ function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs = meanFPfromOrigin("/tmp/tmp.jld")[:,1]
     # Cómo se calcula el error?
 
-    for i in 1:num_configs - 1
+    for i in 2:num_configs
         w = SmallWorldNet(num_nodes,num_neighs,p)
         allFPfromOrigin(w, num_iters, "/tmp/tmp.jld")
         avgs += meanFPfromOrigin("/tmp/tmp.jld")[:,1]

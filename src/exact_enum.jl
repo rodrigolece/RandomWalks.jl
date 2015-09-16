@@ -58,3 +58,52 @@ function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max)
 
     τ = sum(times .* distrib) + tail
 end
+
+
+function meanFEEEfromOrigin(z::Net2D, t_max::Int)
+    out = Array(Float64, z.num_nodes)
+    out[1] = 0.
+
+    first_node = 1
+
+    for second_node in 2:z.num_nodes
+        out[second_node] = meanFEEE(z, first_node, second_node, t_max)
+    end
+
+    out
+end
+
+function meanFEEEfromOrigin(z::Net2D, t_max::Int, file::String)
+    dict = Dict{ASCIIString, Any}()
+    dict["num_nodes"] = z.num_nodes
+    dict["t_max"] = t_max
+    dict["means"] = meanFEEEfromOrigin(z, t_max)
+    save(file, dict)
+end
+
+
+function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int)
+    w = SmallWorldNet(num_nodes, num_neighs, p)
+    z = Net2D(w)
+
+    avgs = meanFEEEfromOrigin(z, t_max)
+
+    for i in 2:num_configs
+        w = SmallWorldNet(num_nodes, num_neighs, p)
+        z = Net2D(w)
+        avgs += meanFEEEfromOrigin(z, t_max)
+    end
+
+    avgs / num_configs
+end
+
+function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int, file::String)
+    dict = Dict{ASCIIString, Any}()
+    dict["num_nodes"] = num_nodes
+    dict["num_neighs"] = num_neighs
+    dict["p"] = p
+    dict["t_max"] = num_iters
+    dict["num_configs"] = num_configs
+    dict["means"] = meanFEEEconfigSpace(num_nodes, num_neighs, p, t_max, num_configs)
+    save(file, dict)
+end
