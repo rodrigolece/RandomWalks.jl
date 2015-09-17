@@ -55,16 +55,21 @@ function firstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int)
     t = 0
 
     while first_node != second_node
-        first_node = randomStep(w, first_node)
-        if first_node == second_node
-            return t+1
-        else
-            second_node = randomStep(w, second_node)
-            t += 1
-        end
-    end
+		for _ in 1:2 # En un paso hay dos movimientos
+			# Escogemos a un caminante y lo movemos
+			if rand() < 0.5
+				first_node = randomStep(w, first_node)
+			else
+				second_node = randomStep(w, second_node)
+			end
 
-    t
+			if first_node == second_node
+				return t+1
+			end
+		end
+
+		t += 1
+	end
 end
 
 function runsFirstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
