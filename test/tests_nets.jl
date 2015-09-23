@@ -38,6 +38,6 @@ facts("Pruebas del módulo Nets") do
 
 	z = Net2D(w) ; site = (2,2)
 	@fact z.num_nodes --> num_nodes
-	@fact z.neighbours[site...] --> [(1,1), (1,3), (3,1), (3,3)]
+	@fact z.neighbours[site...] --> [(1,2), (3,2), (2,1), (2,3)]
 	@fact z.degrees[site...] --> deg(z,site)
 end

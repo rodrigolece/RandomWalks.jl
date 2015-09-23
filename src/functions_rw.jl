@@ -85,12 +85,11 @@ end
 
 # Nos gutaría que esta función utilizara la de abajo que calcula promedios y escribe con JLD
 function meanFE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
-    distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsFirstEncounter(w,first_node,second_node,num_iters)
     μ = mean(runs)
     σ = stdm(runs, μ)
 
-    distance, μ, σ/sqrt(num_iters)
+    [ μ, σ/sqrt(num_iters) ]
 end
 
 
