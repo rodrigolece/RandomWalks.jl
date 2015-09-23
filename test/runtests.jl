@@ -20,5 +20,9 @@ include("tests_functionsrw.jl")
 
 include("tests_exactenum.jl")
 
+# Pruebas del método matricial
+
+include("tests_matrix.jl")
+
 
 FactCheck.exitstatus()
