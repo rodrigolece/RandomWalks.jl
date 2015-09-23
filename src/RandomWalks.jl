@@ -18,7 +18,8 @@ export
 	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
 	allFPfromOrigin, meanFPfromOrigin, meanFPconfigSpace,
-	deg, firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace
+	deg, firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
+	meanFPmatrix
 
 
 include("nets.jl")
@@ -26,6 +27,7 @@ include("nets.jl")
 include("pathlengths.jl")
 include("functions_rw.jl")
 include("exact_enum.jl")
+include("matrix.jl")
 
 
 
