@@ -26,9 +26,9 @@ function hasNode(w::SmallWorldNet, n::Int)
     n <= length(w.neighbours) ? true : false
 end
 
-function addNode!(w::SmallWorldNet)
-    push!(w.neighbours, [])
-end
+# function addNode!(w::SmallWorldNet)
+#     push!(w.neighbours, [])
+# end
 
 # function getNodes(w::SmallWorldNet)
 #     [1:length(w.neighbours)]
@@ -110,10 +110,11 @@ end
 type Net2D
     num_nodes::Int
     neighbours::Array{Vector{Tuple{Int,Int}},2}
-	degrees::Array{Int,2}
+ 	degrees::Array{Int,2}
 
     function Net2D(w::SmallWorldNet)
-		neighbours, degrees = neighbours2D(w)
+		order = 2
+		neighbours, degrees = allNeighbours2D(w, order)
 
         new(w.num_nodes,neighbours,degrees)
     end
@@ -121,37 +122,52 @@ end
 
 show(io::IO, z::Net2D) = println(io, "2D formed from $(z.num_nodes) nodes")
 
-function neighbours2D(w::SmallWorldNet)
+function allNeighbours2D(w::SmallWorldNet, order::Int)
 	nn = w.num_nodes
     neighs = Array(Vector{Tuple{Int,Int}}, (nn,nn))
 	degs = Array(Int, (nn,nn))
 
-    for site_i in 1:nn
-        neighs_i = getNeighbours(w, site_i)
+	if order == 1
+		for site_i in 1:nn, site_j in 1:nn
+			neighs[site_i,site_j] = neighbours2D(w, site_i, site_j)
+			degs[site_i, site_j] = length(neighs[site_i,site_j])
+		end
+	else
+		first_order = allNeighbours2D(w, 1)[1]
 
-		for site_j in 1:nn
-			neighs_j = getNeighbours(w, site_j)
-
+		for ind in eachindex(first_order)
 			tmp = Tuple{Int,Int}[]
 
-			# Para j fija, agregamos los vecinos de i
-			for ni in neighs_i
-				push!(tmp, (ni, site_j))
+			for (site_i, site_j) in first_order[ind]
+				append!(tmp, neighbours2D(w, site_i, site_j) )
 			end
 
-			# Para i fija, agregamos los vecinos de j
-			for nj in neighs_j
-				push!(tmp, (site_i, nj))
-			end
-
-			neighs[site_i,site_j] = tmp
-			degs[site_i,site_j] = length(tmp)
+			neighs[ind] = unique(tmp)
+			degs[ind] = length(neighs[ind])
 		end
-    end
+	end
 
     neighs, degs
 end
 
+function neighbours2D(w::SmallWorldNet, site_i::Int, site_j::Int)
+	neighs_i = getNeighbours(w, site_i)
+	neighs_j = getNeighbours(w, site_j)
+
+	out = Tuple{Int,Int}[]
+
+	# Para j fija, agregamos los vecinos de i
+	for ni in neighs_i
+		push!(out, (ni, site_j))
+	end
+
+	# Para i fija, agregamos los vecinos de j
+	for nj in neighs_j
+		push!(out, (site_i, nj))
+	end
+
+	out
+end
 
 deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
 deg(z::Net2D, i::Int, j::Int) = length(z.neighbours[i,j])
