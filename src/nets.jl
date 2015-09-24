@@ -142,7 +142,7 @@ function allNeighbours2D(w::SmallWorldNet, order::Int)
 				append!(tmp, neighbours2D(w, site_i, site_j) )
 			end
 
-			neighs[ind] = unique(tmp)
+			neighs[ind] = tmp
 			degs[ind] = length(neighs[ind])
 		end
 	end
