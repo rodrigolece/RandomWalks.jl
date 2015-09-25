@@ -24,6 +24,22 @@ function meanFPmatrix(w::SmallWorldNet)
     sparse(sparse_I, sparse_J, sparse_V) \ c
 end
 
+function meanFPMconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_configs::Int)
+    w = SmallWorldNet(num_nodes, num_neighs, p)
+
+    out = meanFPmatrix(w)[1:num_nodes]
+
+    for i in 2:num_configs
+        w = SmallWorldNet(num_nodes, num_neighs, p)
+
+        out += meanFPmatrix(w)[1:num_nodes]
+    end
+
+    out / num_configs
+end
+
+
+
 translateIndex(i, j, num_nodes) = i + num_nodes*(j-1)
 translateIndex(tup, num_nodes) = translateIndex(tup..., num_nodes)
 
@@ -65,4 +81,20 @@ function meanFEmatrix(z::Net2D)
     M = sparse(sparse_I, sparse_J, sparse_V)
 #     @show full(M)
     reshape(M \ c, (nn,nn))
+end
+
+function meanFEMconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_configs::Int)
+    w = SmallWorldNet(num_nodes, num_neighs, p)
+    z = Net2D(w)
+
+    out = meanFEmatrix(z)[1:num_nodes]
+
+    for i in 2:num_configs
+        w = SmallWorldNet(num_nodes, num_neighs, p)
+        z = Net2D(w)
+
+        out += meanFEmatrix(z)[1:num_nodes]
+    end
+
+    out / num_configs
 end
