@@ -16,20 +16,20 @@ function nodeLocations(w::SmallWorldNet)
 end
 
 function circleGraph(w::SmallWorldNet)
-    plt.figure(figsize=(5,5))
+    figure(figsize=(5,5))
 	δ = 0.05
-    plt.xlim(-1-δ, 1+δ)
-    plt.ylim(-1-δ, 1+δ)
+    xlim(-1-δ, 1+δ)
+    ylim(-1-δ, 1+δ)
 
     xs, ys = nodeLocations(w)
 
-    plt.plot(xs, ys, "ro")
+    plot(xs, ys, "ro")
 
 	# Tal vez esto se puede hacer con un sólo llamado a plot, construyendo una matriz antes
     for n in 1:w.num_nodes
         for n2 in getNeighbours(w,n)
             if n < n2
-                plt.plot([xs[n], xs[n2]], [ys[n],ys[n2]], "k-")
+                plot([xs[n], xs[n2]], [ys[n],ys[n2]], "k-")
             end
         end
     end

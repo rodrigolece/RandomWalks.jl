@@ -55,16 +55,21 @@ function firstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int)
     t = 0
 
     while first_node != second_node
-        first_node = randomStep(w, first_node)
-        if first_node == second_node
-            return t+1
-        else
-            second_node = randomStep(w, second_node)
-            t += 1
-        end
-    end
+		for _ in 1:2 # En un paso hay dos movimientos
+			# Escogemos a un caminante y lo movemos
+			if rand() < 0.5
+				first_node = randomStep(w, first_node)
+			else
+				second_node = randomStep(w, second_node)
+			end
 
-    t
+			if first_node == second_node
+				return t+1
+			end
+		end
+
+		t += 1
+	end
 end
 
 function runsFirstEncounter(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
@@ -80,12 +85,11 @@ end
 
 # Nos gutaría que esta función utilizara la de abajo que calcula promedios y escribe con JLD
 function meanFE(w::SmallWorldNet, first_node::Int, second_node::Int, num_iters::Int)
-    distance = pathLengthsFromNode(w,first_node)[second_node]
     runs = runsFirstEncounter(w,first_node,second_node,num_iters)
     μ = mean(runs)
     σ = stdm(runs, μ)
 
-    distance, μ, σ/sqrt(num_iters)
+    [ μ, σ/sqrt(num_iters) ]
 end
 
 
@@ -102,7 +106,7 @@ function allFEfromOrigin(w::SmallWorldNet, num_iters::Int)
     out
 end
 
-function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::AbstractString)
 	dict = Dict{ASCIIString, Any}()
 	dict["num_nodes"] = w.num_nodes
 	dict["num_iters"] = num_iters
@@ -110,7 +114,7 @@ function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
     save(file, dict)
 end
 
-function meanFEfromOrigin(file::String)
+function meanFEfromOrigin(file::AbstractString)
 	num_nodes = load(file, "num_nodes")
 	num_iters = load(file, "num_iters")
 	runs = load(file, "runs")
@@ -143,7 +147,7 @@ function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs / num_configs
 end
 
-function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
@@ -246,7 +250,7 @@ function allFPfromOrigin(w::SmallWorldNet, num_iters::Int)
     out
 end
 
-function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::AbstractString)
 	dict = Dict{ASCIIString, Any}()
 	dict["num_nodes"] = w.num_nodes
 	dict["num_iters"] = num_iters
@@ -254,7 +258,7 @@ function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
     save(file, dict)
 end
 
-function meanFPfromOrigin(file::String)
+function meanFPfromOrigin(file::AbstractString)
 	num_nodes = load(file, "num_nodes")
 	num_iters = load(file, "num_iters")
 	runs = load(file, "runs")
@@ -287,7 +291,7 @@ function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs / num_configs
 end
 
-function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs

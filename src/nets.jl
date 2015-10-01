@@ -126,18 +126,27 @@ function neighbours2D(w::SmallWorldNet)
     neighs = Array(Vector{Tuple{Int,Int}}, (nn,nn))
 	degs = Array(Int, (nn,nn))
 
-    for site_i in 1:nn, site_j in 1:nn
+    for site_i in 1:nn
         neighs_i = getNeighbours(w, site_i)
-        neighs_j = getNeighbours(w, site_j)
 
-        tmp = Tuple{Int,Int}[]
+		for site_j in 1:nn
+			neighs_j = getNeighbours(w, site_j)
 
-        for ni in neighs_i, nj in neighs_j
-            push!(tmp, (ni,nj))
-        end
+			tmp = Tuple{Int,Int}[]
 
-        neighs[site_i,site_j] = tmp
-		degs[site_i,site_j] = length(tmp)
+			# Para j fija, agregamos los vecinos de i
+			for ni in neighs_i
+				push!(tmp, (ni, site_j))
+			end
+
+			# Para i fija, agregamos los vecinos de j
+			for nj in neighs_j
+				push!(tmp, (site_i, nj))
+			end
+
+			neighs[site_i,site_j] = tmp
+			degs[site_i,site_j] = length(tmp)
+		end
     end
 
     neighs, degs
@@ -145,4 +154,5 @@ end
 
 
 deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
-deg(z::Net2D, site::Tuple{Int,Int}) = length(z.neighbours[site...])
+deg(z::Net2D, i::Int, j::Int) = length(z.neighbours[i,j])
+deg(z::Net2D, site::Tuple{Int,Int}) = deg(z, site...)

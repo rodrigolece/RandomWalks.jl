@@ -28,7 +28,7 @@ function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64
 end
 
 function firstEncounterEE(z::Net2D, first_node::Int, second_node::Int, num_iters::Int)
-    p_encounter = Array(Float64,num_iters)
+    p_encounter = zeros(num_iters)
 
     # La condición inicial
     p_mat = zeros(z.num_nodes,z.num_nodes)
@@ -37,14 +37,17 @@ function firstEncounterEE(z::Net2D, first_node::Int, second_node::Int, num_iters
     old_p_mat = zeros(p_mat)
 
     for iter in 1:num_iters
-        p, p_mat, old_p_mat = exactEnum2D(z, p_mat, old_p_mat)
-        p_encounter[iter] = p
+		# En un paso de tiempo se dan dos pasos
+		for _ in 1:2
+			p, p_mat, old_p_mat = exactEnum2D(z, p_mat, old_p_mat)
+			p_encounter[iter] += p
+		end
     end
 
-	p_encounter#, p_mat
+	p_encounter
 end
 
-function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max)
+function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max::Int)
     # Las primeras probas se calculan con enumeración exacta
     times = 1:t_max
 
@@ -73,7 +76,7 @@ function meanFEEEfromOrigin(z::Net2D, t_max::Int)
     out
 end
 
-function meanFEEEfromOrigin(z::Net2D, t_max::Int, file::String)
+function meanFEEEfromOrigin(z::Net2D, t_max::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = z.num_nodes
     dict["t_max"] = t_max
@@ -97,7 +100,7 @@ function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max:
     avgs / num_configs
 end
 
-function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int, file::String)
+function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs

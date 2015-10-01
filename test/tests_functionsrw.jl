@@ -7,41 +7,38 @@ facts("Pruebas de las funciones de caminatas aleatorias") do
 	node = 1 ; srand(1)
 	@fact randomStep(w,node) --> 10
 
-	num_iters = 10 ; srand(1)
+	num_iters = 5 ; srand(1)
 	walk = randomWalk(w,node,num_iters)
-	@fact length(walk) --> num_iters
-	@fact walk[1] --> node
-	@fact walk[end] --> 2
+	@fact walk --> [1, 10, 1, 2, 3]
 
 	z = Net2D(w) ; site = (2,2) ; srand(1)
-	@fact randomStep(z, site) --> (3,1)
+	@fact randomStep(z, site) --> (2,1)
+
 	num_iters = 5 ; srand(1)
 	walk = randomWalk(z, site, num_iters)
 	@fact walk[1] --> site
-	@fact walk[end] --> (6,7)
+	@fact walk[end] --> (2,7)
 
 	# ------------------------------------- #
 	# --- Funciones para dos caminantes --- #
 	# ------------------------------------- #
 	first_node = 1 ; second_node = 6 ; srand(1)
-	@fact firstEncounter(w,first_node,second_node) --> 5
+	@fact firstEncounter(w,first_node,second_node) --> 30
 
-	num_iters = 10 ; srand(1)
+	num_iters = 5 ; srand(1)
 	runs = runsFirstEncounter(w,first_node,second_node,num_iters)
-	@fact length(runs) --> num_iters
-	@fact runs[1] --> 5
-	@fact runs[end] --> 3
+	@fact runs --> [30, 8, 8, 4, 6]
 
 	num_iters = 100 ; srand(1)
-	@fact meanFE(w,first_node,second_node,num_iters) --> (4,10.88,0.7703180505413975)
+	@fact meanFE(w,first_node,second_node,num_iters) --> roughly( [10.8, 0.88]; atol = 1e-2)
 
 	num_iters = 1; srand(1)
-	@fact allFEfromOrigin(w,num_iters) --> [9 2 30 15 4 8 9 19 1]
+	@fact allFEfromOrigin(w,num_iters) --> [11  19  2  32  5  23  7  2  1]
 
 	num_iters = 10 ; num_configs = 10 ; srand(1)
 	meanFEconfigSpace(num_nodes, num_neighs, p, num_iters, num_configs, "test.jld")
 	means = load("test.jld", "means")
-	@fact means[1:4] --> roughly( [0.0, 4.46, 6.18, 9.79] ; atol=1e-2)
+	@fact means[1:4] --> roughly( [0.0, 4.36, 7.8, 10.31] ; atol=1e-2)
 
 
 	# ------------------------------------- #
