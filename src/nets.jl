@@ -114,7 +114,7 @@ type Net2D
     neighbours::Array{Vector{Tuple{Int,Int}},2}
 	degrees::Array{Int,2}
 
-    function Net2D(w::SmallWorldNet)
+    function Net2D{T<:ComplexNetwork}(w::T)
 		neighbours, degrees = neighbours2D(w)
 
         new(w.num_nodes,neighbours,degrees)
@@ -123,7 +123,7 @@ end
 
 show(io::IO, z::Net2D) = println(io, "2D formed from $(z.num_nodes) nodes")
 
-function neighbours2D(w::SmallWorldNet)
+function neighbours2D{T<:ComplexNetwork}(w::T)
 	nn = w.num_nodes
     neighs = Array(Vector{Tuple{Int,Int}}, (nn,nn))
 	degs = Array(Int, (nn,nn))
