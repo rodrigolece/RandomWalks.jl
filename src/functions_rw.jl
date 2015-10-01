@@ -106,7 +106,7 @@ function allFEfromOrigin(w::SmallWorldNet, num_iters::Int)
     out
 end
 
-function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::AbstractString)
 	dict = Dict{ASCIIString, Any}()
 	dict["num_nodes"] = w.num_nodes
 	dict["num_iters"] = num_iters
@@ -114,7 +114,7 @@ function allFEfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
     save(file, dict)
 end
 
-function meanFEfromOrigin(file::String)
+function meanFEfromOrigin(file::AbstractString)
 	num_nodes = load(file, "num_nodes")
 	num_iters = load(file, "num_iters")
 	runs = load(file, "runs")
@@ -147,7 +147,7 @@ function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs / num_configs
 end
 
-function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
@@ -250,7 +250,7 @@ function allFPfromOrigin(w::SmallWorldNet, num_iters::Int)
     out
 end
 
-function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
+function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::AbstractString)
 	dict = Dict{ASCIIString, Any}()
 	dict["num_nodes"] = w.num_nodes
 	dict["num_iters"] = num_iters
@@ -258,7 +258,7 @@ function allFPfromOrigin(w::SmallWorldNet, num_iters::Int, file::String)
     save(file, dict)
 end
 
-function meanFPfromOrigin(file::String)
+function meanFPfromOrigin(file::AbstractString)
 	num_nodes = load(file, "num_nodes")
 	num_iters = load(file, "num_iters")
 	runs = load(file, "runs")
@@ -291,7 +291,7 @@ function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iter
     avgs / num_configs
 end
 
-function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::String)
+function meanFPconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_iters::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs

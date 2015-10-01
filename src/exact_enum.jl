@@ -76,7 +76,7 @@ function meanFEEEfromOrigin(z::Net2D, t_max::Int)
     out
 end
 
-function meanFEEEfromOrigin(z::Net2D, t_max::Int, file::String)
+function meanFEEEfromOrigin(z::Net2D, t_max::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = z.num_nodes
     dict["t_max"] = t_max
@@ -100,7 +100,7 @@ function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max:
     avgs / num_configs
 end
 
-function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int, file::String)
+function meanFEEEconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, t_max::Int, num_configs::Int, file::AbstractString)
     dict = Dict{ASCIIString, Any}()
     dict["num_nodes"] = num_nodes
     dict["num_neighs"] = num_neighs
