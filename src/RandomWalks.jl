@@ -8,8 +8,10 @@ import Base:
 
 
 export
+	ComplexNetwork,
+	hasNode, addNode!, getNeighbours, addEdge!,
 	SmallWorldNet, SmallWorldNetWithNoStep,
-	hasNode, addNode!, addEdge!, getNeighbours,
+	BarabasiAlbert, BarabasiAlbertWithNoStep,
 	Net2D,
 # 	circleGraph,
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D,
