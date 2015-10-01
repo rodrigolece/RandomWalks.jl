@@ -1,5 +1,5 @@
 
-function meanFPmatrix(w::SmallWorldNet)
+function meanFPmatrix{T<:ComplexNetwork}(w::T)
     nn = w.num_nodes
 
     c = ones(nn)

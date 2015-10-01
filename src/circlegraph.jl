@@ -1,7 +1,7 @@
 using PyPlot
 
 ## Para graficar la red ------------------------------- ##
-function nodeLocations(w::SmallWorldNet)
+function nodeLocations{T<:ComplexNetwork}(w::T)
     divi = 2pi / w.num_nodes
 	angs = linspace(0,2pi-divi, w.num_nodes)
 
@@ -15,7 +15,7 @@ function nodeLocations(w::SmallWorldNet)
 	return xs, ys
 end
 
-function circleGraph(w::SmallWorldNet)
+function circleGraph{T<:ComplexNetwork}(w::T)
     figure(figsize=(5,5))
 	δ = 0.05
     xlim(-1-δ, 1+δ)

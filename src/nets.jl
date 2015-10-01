@@ -1,6 +1,8 @@
+abstract ComplexNetwork
+
 
 ## El tipo SmallWorldNet con el constructor básico ----- ##
-type SmallWorldNet
+type SmallWorldNet <: ComplexNetwork
     num_nodes::Int
     num_neighs::Int
 	# La probabilidad con la que se hacen uniones de largo alcance
@@ -22,11 +24,11 @@ show(io::IO, w::SmallWorldNet) = println(io, "Nodes:$(w.num_nodes) Neighs:$(w.nu
 
 # Las funciones de la red --------------------------- ##
 
-function hasNode(w::SmallWorldNet, n::Int)
+function hasNode{T<:ComplexNetwork}(w::T, n::Int)
     n <= length(w.neighbours) ? true : false
 end
 
-function addNode!(w::SmallWorldNet)
+function addNode!{T<:ComplexNetwork}(w::T)
     push!(w.neighbours, [])
 end
 
@@ -34,11 +36,11 @@ end
 #     [1:length(w.neighbours)]
 # end
 
-function getNeighbours(w::SmallWorldNet, n::Int)
+function getNeighbours{T<:ComplexNetwork}(w::T, n::Int)
     w.neighbours[n]
 end
 
-function addEdge!(w::SmallWorldNet, n1::Int, n2::Int)
+function addEdge!{T<:ComplexNetwork}(w::T, n1::Int, n2::Int)
     if n1 == n2
         #print("Only one node given: ",n1)
         return
@@ -153,6 +155,6 @@ function neighbours2D(w::SmallWorldNet)
 end
 
 
-deg(w::SmallWorldNet, node::Int) = length(getNeighbours(w,node))
+deg{T<:ComplexNetwork}(w::T, node::Int) = length(getNeighbours(w,node))
 deg(z::Net2D, i::Int, j::Int) = length(z.neighbours[i,j])
 deg(z::Net2D, site::Tuple{Int,Int}) = deg(z, site...)
