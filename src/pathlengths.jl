@@ -40,13 +40,27 @@ function allPathLengths{T<:ComplexNetwork}(w::T)
 end
 
 function pathLengthsHist{T<:ComplexNetwork}(w::T)
-    out = zeros(Int, fld(w.num_nodes, 2*w.num_neighs) + 1) #La longitud maxima
+	nn = w.num_nodes
+    oversized = zeros(Int, nn)
 
-    for n in 1:w.num_nodes
+    for n in 1:nn
         for n2 in values(pathLengthsFromNode(w, n))
-            out[n2+1] += 1
+            oversized[n2+1] += 1
         end
     end
+
+	# La última entrada distinta de cero
+	i = 0
+    while i != nn
+        if oversized[nn-i] != 0
+            break
+		else
+			i += 1
+        end
+    end
+
+	last_entry = nn - i
+	out = oversized[1:last_entry]
 
     out = round(Int, out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces excepto la distancia de un nodo a él mismo
 
@@ -67,15 +81,7 @@ function avgPathLength{T<:ComplexNetwork}(w::T)
 end
 
 function maxPathLength{T<:ComplexNetwork}(w::T)
-    distrib = pathLengthsHist(w)
-    N = length(distrib)
-
-	# La distancia máxima es la mayor entrada distinta de cero
-    for i in 1:N
-        if distrib[N-i] != 0
-            return N-i-1 #el -1 se debe a que distrib[1] es la distancia 0
-        end
-    end
+	length(pathLengthsHist(w)) - 1 #el -1 se debe a que el primer elemento es la distancia 0
 end
 
 

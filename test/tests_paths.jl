@@ -21,9 +21,9 @@ facts("Pruebas de las funciones para calcular distancias") do
 	@fact hist_distances[1] --> num_nodes
 	@fact hist_distances[end] --> 1
 
-	@fact avgPathLength(w) --> 2.090909090909091
+	@fact avgPathLength(w) --> roughly(2.09 ; atol = 1e-2)
 
-	@fact maxPathLength(w) --> 4
+	@fact maxPathLength(w) --> 5
 
 	num_nodes = 4 ; p = 0.
 	w = SmallWorldNet(num_nodes, num_neighs, p)
