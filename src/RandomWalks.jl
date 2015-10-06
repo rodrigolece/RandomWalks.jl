@@ -14,7 +14,7 @@ export
 	BarabasiAlbert, BarabasiAlbertWithNoStep,
 	Net2D,
 # 	circleGraph,
-	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D,
+	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D, classifyWithDistance,
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,

@@ -98,3 +98,23 @@ function pathLengths2D{T<:ComplexNetwork}(w::T)
 
     out
 end
+
+
+function classifyWithDistance{T<:ComplexNetwork}(w::T, node::Int)
+    nn = w.num_nodes
+
+    ds = [pathLengthsFromNode(w, 1)[i] for i in 1:nn]
+    M = maximum(ds)
+
+    out = Array(Vector{Int}, M+1) # El +1 viene de que el primer elemento es la dist 0
+    for elem in eachindex(out)
+        out[elem] = []
+    end
+
+    for i in 1:nn
+        d = ds[i] + 1 # +1 por la distancia 0
+        push!(out[d], i)
+    end
+
+    out
+end
