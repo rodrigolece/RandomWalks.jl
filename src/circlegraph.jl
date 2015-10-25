@@ -23,8 +23,6 @@ function circleGraph{T<:ComplexNetwork}(w::T)
 
     xs, ys = nodeLocations(w)
 
-    plot(xs, ys, "ro")
-
 	# Tal vez esto se puede hacer con un sólo llamado a plot, construyendo una matriz antes
     for n in 1:w.num_nodes
         for n2 in getNeighbours(w,n)
@@ -33,4 +31,6 @@ function circleGraph{T<:ComplexNetwork}(w::T)
             end
         end
     end
+
+	plot(xs, ys, "ro")
 end
