@@ -9,7 +9,7 @@ import Base:
 
 export
 	ComplexNetwork,
-	hasNode, addNode!, getNeighbours, addEdge!,
+	hasNode, addNode!, getNeighbours, addEdge!, deg,
 	SmallWorldNet, SmallWorldNetWithNoStep,
 	BarabasiAlbert, BarabasiAlbertWithNoStep,
 	Net2D,
@@ -20,7 +20,8 @@ export
 	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
 	allFPfromOrigin, meanFPfromOrigin, meanFPconfigSpace,
-	deg, firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
+	firstPassageEE, meanFPEE,
+	firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
 	meanFPmatrix, meanFPMconfigSpace, meanFEmatrix, meanFEMconfigSpace
 
 
