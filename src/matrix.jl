@@ -80,7 +80,7 @@ function meanFEmatrix(z::Net2D)
 
     M = sparse(sparse_I, sparse_J, sparse_V)
 #     @show full(M)
-    reshape(M \ c, (nn,nn))
+    reshape(M \ c, (nn,nn)) / 2 # Entre 2 para obtener resultado como si hiciera 2 pasos
 end
 
 function meanFEMconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_configs::Int)

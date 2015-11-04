@@ -1,4 +1,5 @@
 using PyPlot
+using PyCall
 
 ## Para graficar la red ------------------------------- ##
 function nodeLocations{T<:ComplexNetwork}(w::T)
@@ -16,7 +17,11 @@ function nodeLocations{T<:ComplexNetwork}(w::T)
 end
 
 function circleGraph{T<:ComplexNetwork}(w::T)
-    figure(figsize=(5,5))
+    fig = figure(figsize=(5,5))
+	axes = fig[:gca]()[:axes]
+	axes[:get_xaxis]()[:set_visible](false)
+	axes[:get_yaxis]()[:set_visible](false)
+
 	δ = 0.05
     xlim(-1-δ, 1+δ)
     ylim(-1-δ, 1+δ)
