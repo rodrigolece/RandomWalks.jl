@@ -118,3 +118,44 @@ function classifyWithDistance{T<:ComplexNetwork}(w::T, node::Int)
 
     out
 end
+
+
+## ------ Otras funciones que tienen que ver con atajos, y una para ajustar polinomios ------ ##
+
+function findShortcuts(w::SmallWorldNet)
+    out = Int[]
+
+    neighs = w.neighbours
+
+    for node in 1:w.num_nodes
+        neighs = getNeighbours(w, node)
+
+        if length(neighs) > 2*w.num_neighs
+            append!(out, neighs[2w.num_neighs+1:end])
+        end
+    end
+
+    unique(out)
+end
+
+function shortcutsDistance(w::SmallWorldNet)
+    out = Dict{Tuple{Int, Int},Int}()
+    shorts = findShortcuts(w)
+
+    for i in shorts, j in shorts
+        if j < i
+            continue
+        else
+            if j in getNeighbours(w, i)
+                out[(i, j)] = min(j-i, w.num_nodes + i - j)
+            end
+        end
+    end
+
+    out
+end
+
+function polyfit(x, y, n)
+  A = [ float(x[i])^p for i = 1:length(x), p = 0:n ]
+  A \ y
+end

@@ -15,6 +15,7 @@ export
 	Net2D,
 # 	circleGraph,
 	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D, classifyWithDistance,
+	findShortcuts, shortcutsDistance, polyfit,
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,
