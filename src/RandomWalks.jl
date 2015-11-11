@@ -8,17 +8,21 @@ import Base:
 
 
 export
+	ComplexNetwork,
+	hasNode, addNode!, getNeighbours, addEdge!, deg,
 	SmallWorldNet, SmallWorldNetWithNoStep,
-	hasNode, addNode!, addEdge!, getNeighbours,
+	BarabasiAlbert, BarabasiAlbertWithNoStep,
 	Net2D,
 # 	circleGraph,
-	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D,
+	pathLengthsFromNode, allPathLengths, pathLengthsHist, avgPathLength, maxPathLength, pathLengths2D, classifyWithDistance,
+	findShortcuts, shortcutsDistance, polyfit,
 	randomStep, randomWalk,# histRandomWalk,
 	firstEncounter, runsFirstEncounter, meanFE,# convergenceAvgRandomWalk2, histRandomWalk2,
 	allFEfromOrigin, meanFEfromOrigin, meanFEconfigSpace,
 	firstPassage, runsFirstPassage, meanFP,# histRandomWalkUntil
 	allFPfromOrigin, meanFPfromOrigin, meanFPconfigSpace,
-	deg, firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
+	firstPassageEE, meanFPEE,
+	firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
 	meanFPmatrix, meanFPMconfigSpace, meanFEmatrix, meanFEMconfigSpace
 
 

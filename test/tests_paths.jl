@@ -10,6 +10,11 @@ facts("Pruebas de las funciones para calcular distancias") do
 	@fact distances[10] --> 1
 	@fact distances[6] --> 4
 
+	class = classifyWithDistance(w,1)
+	@fact class[1] --> [1]
+	@fact class[4] --> [4, 7, 8]
+	@fact class[end] --> [5,6]
+
 	all_paths = allPathLengths(w)
 	@fact length(all_paths) --> 55
 	@fact all_paths[(4,4)] --> 0
@@ -21,9 +26,10 @@ facts("Pruebas de las funciones para calcular distancias") do
 	@fact hist_distances[1] --> num_nodes
 	@fact hist_distances[end] --> 1
 
-	@fact avgPathLength(w) --> 2.090909090909091
+	@fact avgPathLength(w) --> roughly(2.09 ; atol = 1e-2)
 
-	@fact maxPathLength(w) --> 4
+	@fact maxPathLength(w) --> 5
+
 
 	num_nodes = 4 ; p = 0.
 	w = SmallWorldNet(num_nodes, num_neighs, p)

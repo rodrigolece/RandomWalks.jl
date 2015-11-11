@@ -1,4 +1,57 @@
 
+function exactEnum{T<:ComplexNetwork}(w::T, p_vec::Vector{Float64}, old_p_vec::Vector{Float64}, target_node::Int)
+	nn = w.num_nodes
+
+	p = p_vec[target_node]
+
+	p_vec[target_node] = 0.
+
+	for node in 1:nn
+		contribution = p_vec[node] / deg(w, node)
+		p_vec[node] = 0.
+
+		for neigh in getNeighbours(w, node)
+			old_p_vec[neigh] += contribution
+		end
+	end
+
+	p, old_p_vec, p_vec
+end
+
+function firstPassageEE{T<:ComplexNetwork}(w::T, init_node::Int, target_node::Int, num_iters::Int)
+    p_encounter = zeros(num_iters)
+
+    # La condición inicial
+    p_vec = zeros(w.num_nodes)
+    p_vec[init_node] = 1.
+
+    old_p_vec = zeros(p_vec)
+
+    for iter in 1:num_iters
+		p, p_vec, old_p_vec = exactEnum(w, p_vec, old_p_vec, target_node)
+		p_encounter[iter] += p
+    end
+
+	p_encounter
+end
+
+function meanFPEE{T<:ComplexNetwork}(w::T, init_node::Int, target_node::Int, t_max::Int)
+    # Las primeras probas se calculan con enumeración exacta
+    times = 1:t_max
+
+    distrib = firstPassageEE(w, init_node, target_node, t_max)
+
+    # Y lo que queda es la cola exponencial
+
+    α = 1/10*log(distrib[t_max-10]/distrib[t_max])
+    tail = distrib[t_max]*( t_max/α + 1/α^2 )
+
+    τ = sum(times .* distrib) + tail
+end
+
+
+
+
 function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64,2})
 	nn = z.num_nodes
     # Calculamos la proba de encuentro
@@ -20,7 +73,6 @@ function exactEnum2D(z::Net2D, p_mat::Array{Float64,2}, old_p_mat::Array{Float64
             # Estamos suponiendo que old_p_mat siempre es un arreglo de ceros
             old_p_mat[neigh...] += contribution
         end
-
     end
 
     # Se hace el swap de las matrices
@@ -51,7 +103,6 @@ function meanFEEE(z::Net2D, first_node::Int, second_node::Int, t_max::Int)
     # Las primeras probas se calculan con enumeración exacta
     times = 1:t_max
 
-#     distrib , p_mat = firstEncounterEE(z, first_node, second_node, t_max)
     distrib = firstEncounterEE(z, first_node, second_node, t_max)
 
     # Y lo que queda es la cola exponencial

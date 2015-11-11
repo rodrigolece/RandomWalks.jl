@@ -1,7 +1,7 @@
 
 ## Distancia entre nodos -------------------------- ##
 
-function pathLengthsFromNode(w::SmallWorldNet, n::Int)
+function pathLengthsFromNode{T<:ComplexNetwork}(w::T, n::Int)
     d = 0
     distances = Dict(n => d)
     current_shell = [n]
@@ -23,7 +23,7 @@ function pathLengthsFromNode(w::SmallWorldNet, n::Int)
     distances
 end
 
-function allPathLengths(w::SmallWorldNet)
+function allPathLengths{T<:ComplexNetwork}(w::T)
     full_dict = Dict{Tuple{Int,Int},Int}()
 
     for first_node in 1:w.num_nodes
@@ -39,21 +39,35 @@ function allPathLengths(w::SmallWorldNet)
     full_dict
 end
 
-function pathLengthsHist(w::SmallWorldNet)
-    out = zeros(Int, fld(w.num_nodes, 2*w.num_neighs) + 1) #La longitud maxima
+function pathLengthsHist{T<:ComplexNetwork}(w::T)
+	nn = w.num_nodes
+    oversized = zeros(Int, nn)
 
-    for n in 1:w.num_nodes
+    for n in 1:nn
         for n2 in values(pathLengthsFromNode(w, n))
-            out[n2+1] += 1
+            oversized[n2+1] += 1
         end
     end
+
+	# La última entrada distinta de cero
+	i = 0
+    while i != nn
+        if oversized[nn-i] != 0
+            break
+		else
+			i += 1
+        end
+    end
+
+	last_entry = nn - i
+	out = oversized[1:last_entry]
 
     out = round(Int, out/2) ; out[1]*=2 #Todas las distancias se cuentan dos veces excepto la distancia de un nodo a él mismo
 
 	out
 end
 
-function avgPathLength(w::SmallWorldNet)
+function avgPathLength{T<:ComplexNetwork}(w::T)
     distrib = pathLengthsHist(w)
     p = 0.
     total = 0
@@ -66,20 +80,12 @@ function avgPathLength(w::SmallWorldNet)
     p / total
 end
 
-function maxPathLength(w::SmallWorldNet)
-    distrib = pathLengthsHist(w)
-    N = length(distrib)
-
-	# La distancia máxima es la mayor entrada distinta de cero
-    for i in 1:N
-        if distrib[N-i] != 0
-            return N-i-1 #el -1 se debe a que distrib[1] es la distancia 0
-        end
-    end
+function maxPathLength{T<:ComplexNetwork}(w::T)
+	length(pathLengthsHist(w)) - 1 #el -1 se debe a que el primer elemento es la distancia 0
 end
 
 
-function pathLengths2D(w::SmallWorldNet)
+function pathLengths2D{T<:ComplexNetwork}(w::T)
     nn = w.num_nodes
     dict_distances = allPathLengths(w)
 
@@ -91,4 +97,65 @@ function pathLengths2D(w::SmallWorldNet)
     end
 
     out
+end
+
+
+function classifyWithDistance{T<:ComplexNetwork}(w::T, node::Int)
+    nn = w.num_nodes
+
+    ds = [pathLengthsFromNode(w, 1)[i] for i in 1:nn]
+    M = maximum(ds)
+
+    out = Array(Vector{Int}, M+1) # El +1 viene de que el primer elemento es la dist 0
+    for elem in eachindex(out)
+        out[elem] = []
+    end
+
+    for i in 1:nn
+        d = ds[i] + 1 # +1 por la distancia 0
+        push!(out[d], i)
+    end
+
+    out
+end
+
+
+## ------ Otras funciones que tienen que ver con atajos, y una para ajustar polinomios ------ ##
+
+function findShortcuts(w::SmallWorldNet)
+    out = Int[]
+
+    neighs = w.neighbours
+
+    for node in 1:w.num_nodes
+        neighs = getNeighbours(w, node)
+
+        if length(neighs) > 2*w.num_neighs
+            append!(out, neighs[2w.num_neighs+1:end])
+        end
+    end
+
+    unique(out)
+end
+
+function shortcutsDistance(w::SmallWorldNet)
+    out = Dict{Tuple{Int, Int},Int}()
+    shorts = findShortcuts(w)
+
+    for i in shorts, j in shorts
+        if j < i
+            continue
+        else
+            if j in getNeighbours(w, i)
+                out[(i, j)] = min(j-i, w.num_nodes + i - j)
+            end
+        end
+    end
+
+    out
+end
+
+function polyfit(x, y, n)
+  A = [ float(x[i])^p for i = 1:length(x), p = 0:n ]
+  A \ y
 end
