@@ -1,16 +1,16 @@
 
-function meanFPmatrix{T<:ComplexNetwork}(w::T)
+function meanFPmatrix{T<:ComplexNetwork}(w::T, m::Int)
     nn = w.num_nodes
 
     c = ones(nn)
-    c[1] = 0.
+    c[m] = 0.
 
     # La diagonal
     sparse_I = collect(1:nn)
     sparse_J = collect(1:nn)
     sparse_V = ones(nn)
 
-    for node in 2:nn
+    for node in filter(i -> i != m, 1:nn)
         d = deg(w, node)
         append!(sparse_I, node*ones(Int, d))
 
@@ -23,6 +23,8 @@ function meanFPmatrix{T<:ComplexNetwork}(w::T)
 
     sparse(sparse_I, sparse_J, sparse_V) \ c
 end
+
+meanFPmatrix{T<:ComplexNetwork}(w::T) = meanFPmatrix(w, 1)
 
 function meanFPMconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_configs::Int)
     w = SmallWorldNet(num_nodes, num_neighs, p)
