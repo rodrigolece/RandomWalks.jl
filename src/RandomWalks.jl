@@ -23,7 +23,8 @@ export
 	allFPfromOrigin, meanFPfromOrigin, meanFPconfigSpace,
 	firstPassageEE, meanFPEE,
 	firstEncounterEE, meanFEEE, meanFEEEfromOrigin, meanFEEEconfigSpace,
-	meanFPmatrix, meanFPMconfigSpace, meanFEmatrix, meanFEMconfigSpace
+	meanFPmatrix, meanFPMconfigSpace, meanFEmatrix, meanFEMconfigSpace,
+	generalFP, generalFE
 
 
 include("nets.jl")

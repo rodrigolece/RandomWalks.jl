@@ -100,3 +100,20 @@ function meanFEMconfigSpace(num_nodes::Int, num_neighs::Int, p::Float64, num_con
 
     out / num_configs
 end
+
+
+# Tiempos promedio generales
+
+function generalFP{T<:ComplexNetwork}(w::T)
+    nn = w.num_nodes
+
+    avg = mean(meanFPmatrix(w))
+
+    for m in 2:nn
+        avg += mean(meanFPmatrix(w, m))
+    end
+
+    avg/nn
+end
+
+generalFE(z::Net2D) = mean(meanFEmatrix(z))
